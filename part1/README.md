@@ -169,4 +169,5 @@ This document brings together all design elements of the HBnB project into one r
 ---
 
 **Authors:** 
+
 Alcinoe Romanelli--Fromy & Julia Costa de Sousa
