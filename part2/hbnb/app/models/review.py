@@ -14,7 +14,7 @@ class Review(BaseModel):
     
     @property
     def text(self):
-        return self._text
+        return self.__text
     
     @text.setter
     def text(self, value):
@@ -22,12 +22,12 @@ class Review(BaseModel):
             raise TypeError("text must be a string")
         if not value.strip():
             raise ValueError("text is required and cannot be empty")
-        self._text = value
+        self.__text = value
         self.save()
 
     @property
     def rating(self):
-        return self._rating
+        return self.__rating
 
     @rating.setter
     def rating(self, value):
@@ -35,12 +35,12 @@ class Review(BaseModel):
             raise TypeError("rating must be an integer")
         if not (1 <= value <= 5):
             raise ValueError("rating must be between 1 and 5")
-        self._rating = value
+        self.__rating = value
         self.save()
 
     @property
     def place(self):
-        return self._place
+        return self.__place
 
     @place.setter
     def place(self, value):
@@ -48,12 +48,12 @@ class Review(BaseModel):
             raise ValueError("place must be a place instance")
         if not facade.place_repo.get(value.id):
             raise ValueError("place does not exist in repository")
-        self._place = value
+        self.__place = value
         self.save()
 
     @property
     def user(self):
-        return self._user
+        return self.__user
 
     @user.setter
     def user(self, value):
@@ -61,7 +61,7 @@ class Review(BaseModel):
             raise ValueError("user must be a user instance")
         if not facade.user_repo.get(value.id):
             raise ValueError("user does not exist in repository")
-        self._user = value
+        self.__user = value
         self.save()
 
     def to_dict(self):

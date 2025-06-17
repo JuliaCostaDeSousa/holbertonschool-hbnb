@@ -7,7 +7,7 @@ class Amenity(BaseModel):
     
     @property
     def name(self):
-        return self._name
+        return self.__name
     
     @name.setter
     def name(self, value):
@@ -17,7 +17,7 @@ class Amenity(BaseModel):
             raise ValueError("name must be at most 50 characters long")
         if not value.strip():
             raise ValueError("name is required and cannot be empty")
-        self._name = value
+        self.__name = value
         self.save()
 
     def to_dict(self):
