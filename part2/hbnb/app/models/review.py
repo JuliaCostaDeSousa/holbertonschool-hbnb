@@ -1,6 +1,7 @@
 from app.models.base_model import BaseModel
 from app.models.place import Place
 from app.models.user import User
+from app.services import facade
 
 
 class Review(BaseModel):
@@ -45,6 +46,8 @@ class Review(BaseModel):
     def place(self, value):
         if not isinstance(value, Place):
             raise ValueError("place must be a place instance")
+        if not facade.place_repo.get(value.id):
+            raise ValueError("place does not exist in repository")
         self._place = value
         self.save()
 
@@ -56,6 +59,8 @@ class Review(BaseModel):
     def user(self, value):
         if not isinstance(value, User):
             raise ValueError("user must be a user instance")
+        if not facade.user_repo.get(value.id):
+            raise ValueError("user does not exist in repository")
         self._user = value
         self.save()
 
