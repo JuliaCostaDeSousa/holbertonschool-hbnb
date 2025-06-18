@@ -23,7 +23,6 @@ class Review(BaseModel):
         if not value.strip():
             raise ValueError("text is required and cannot be empty")
         self.__text = value
-        self.save()
 
     @property
     def rating(self):
@@ -36,7 +35,6 @@ class Review(BaseModel):
         if not (1 <= value <= 5):
             raise ValueError("rating must be between 1 and 5")
         self.__rating = value
-        self.save()
 
     @property
     def place(self):
@@ -49,7 +47,6 @@ class Review(BaseModel):
         if not facade.place_repo.get(value.id):
             raise ValueError("place does not exist in repository")
         self.__place = value
-        self.save()
 
     @property
     def user(self):
@@ -62,7 +59,6 @@ class Review(BaseModel):
         if not facade.user_repo.get(value.id):
             raise ValueError("user does not exist in repository")
         self.__user = value
-        self.save()
 
     def to_dict(self):
         return {
