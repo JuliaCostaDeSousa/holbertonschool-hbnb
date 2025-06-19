@@ -6,12 +6,11 @@ import re
 
 
 class User(BaseModel):
-    def __init__(self, first_name, last_name, email, password, is_admin=False):
+    def __init__(self, first_name, last_name, email, is_admin=False):
         super().__init__()
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
-        self.__password = password
         self.is_admin = is_admin
         self.places = []
 
@@ -37,14 +36,6 @@ class User(BaseModel):
         if not isinstance(new_email, str):
             raise TypeError("email must be strings")
         self.__email = self.verified_email(new_email)
-
-    @property
-    def password(self):
-        return self.__password
-
-    @password.setter
-    def password(self, new_password):
-        self.__password = new_password
 
     def __str__(self):
         return f"first_name: {self.first_name}\n last_name: {self.last_name}\n email: {self.email}"

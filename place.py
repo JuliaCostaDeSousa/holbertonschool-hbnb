@@ -40,8 +40,8 @@ class PlaceList(Resource):
 
         try:
             new_place = facade.create_place(place_data)
-        except ValueError as e:
-            return {'error': str(e)}, 400
+        except ValueError as error:
+            return {'error': str(error)}, 400
 
         return {
             'id': new_place.id,
