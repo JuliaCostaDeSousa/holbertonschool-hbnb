@@ -104,30 +104,40 @@ class HBnBFacade:
     def create_user(self, user_data):
         user = User(**user_data)
         self.user_repo.add(user)
-        return user
+        return user.to_dict()
 
     def get_user(self, user_id):
-        return self.user_repo.get(user_id)
+        user = self.user_repo.get(user_id)
+        if user is None:
+            raise ValueError("User not found")
+        return user.to_dict()
 
     def get_user_by_email(self, email):
-        return self.user_repo.get_by_attribute("email", email)
+        user = self.user_repo.get_by_attribute("email", email)
+        if user is None:
+            raise ValueError("User not found")
+        return user.to_dict()
 
     def get_all_users(self):
-        return self.user_repo.get_all()
+        return [u.to_dict() for u in self.user_repo.get_all()]
 
     def create_place(self, place_data):
         place = Place(**place_data)
         self.place_repo.add(place)
-        return place
+        return place.to_dict()
 
     def get_place(self, place_id):
-        return self.place_repo.get(place_id)
+        place = self.place_repo.get(place_id)
+        if place is None:
+            raise ValueError("Place not found")
+        return place.to_dict()
 
     def get_all_places(self):
-        return self.place_repo.get_all()
+        return [p.to_dict() for p in self.place_repo.get_all()]
 
     def update_place(self, place_id, place_data):
         self.place_repo.update(place_id, place_data)
+        return self.place_repo.get(place_id).to_dict()
 
     def delete_place(self, place_id):
         self.place_repo.delete(place_id)

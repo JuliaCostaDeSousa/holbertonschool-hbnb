@@ -17,12 +17,12 @@ class User(BaseModel):
         if not isinstance(first_name, str):
             raise TypeError("First name is required")
         if first_name == "" or len(first_name) > 50:
-            raise ValueError("First name is required must be characters")
+            raise ValueError("First name is required and must be at most 50 characters")
 
         if not isinstance(last_name, str):
             raise TypeError("Last name is required")
         if last_name == "" or len(last_name) > 50:
-            raise ValueError("Last name is required must be characters")
+            raise ValueError("Last name is required and must be at most 50 characters")
         
         if not isinstance(is_admin, bool):
             raise TypeError("Is_admin must be boolean type")
