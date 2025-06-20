@@ -107,8 +107,15 @@ class UserResource(Resource):
 
         user_data['email'] = email
         try:
-            updated_user = facade.update_user(user_id, user_data)
-        except ValueError as error:
-            return {'error': str(error)}, 400
+            user = facade.update_user(user_id, update_data)
+            return {
+                'id': user["id"],
+                'first_name': user["first_name"],
+                'last_name': user["last_name"],
+                'email': user["email"]
+            }, 200
+        except ValueError:
+            return {"error": "User not found"}, 404
+
 
         return user_to_dict(updated_user), 200

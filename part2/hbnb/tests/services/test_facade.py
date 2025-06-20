@@ -1,13 +1,10 @@
 import pytest
-from app.services.facade import HBnBFacade
+from app.services import facade
 from app.models.user import User
 from app.models.place import Place
 from app.models.amenity import Amenity
 from app.models.review import Review
 
-@pytest.fixture
-def facade():
-    return HBnBFacade()
 
 @pytest.fixture
 def user_and_place(facade):
@@ -68,11 +65,13 @@ def test_facade_update_user(facade):
 # ---------- Place Tests ----------
 
 def test_facade_create_place(facade):
-    user = facade.create_user({
-        "first_name": "Owner",
-        "last_name": "Test",
-        "email": "owner@test.com"
-    })
+    user_dict = facade.create_user({
+    "first_name": "Owner",
+    "last_name": "Test",
+    "email": "owner@test.com"
+})
+    user_obj = facade.user_repo.get(user_dict["id"])
+
     amenity = facade.create_amenity({"name": "Pool"})
     place = facade.create_place({
         "title": "Modern Loft",
@@ -80,12 +79,12 @@ def test_facade_create_place(facade):
         "price": 200.0,
         "latitude": 48.85,
         "longitude": 2.35,
-        "owner": user["id"],
+        "owner_id": user_dict["id"],
         "amenities": [amenity["id"]]
     })
     assert place["title"] == "Modern Loft"
-    assert place["owner_id"] == user["id"]
-    assert place.amenities[0]["name"] == "Pool"
+    assert place["owner"]["id"] == user_dict["id"]
+    assert place["amenities"][0]["name"] == "Pool"
 
 # ---------- Review Tests ----------
 
@@ -94,8 +93,8 @@ def test_facade_create_review(facade, user_and_place):
     review = facade.create_review({
         "text": "Great stay!",
         "rating": 5,
-        "user_id": user["id"],
-        "place_id": place["id"]
+        "user_id": user.id,
+        "place_id": place.id
     })
     assert review["text"] == "Great stay!"
 
@@ -104,7 +103,7 @@ def test_facade_create_review_invalid_user(facade, user_and_place):
     with pytest.raises(ValueError, match="User not found"):
         facade.create_review({
             "text": "Nice", "rating": 4,
-            "user_id": "invalid", "place_id": place["id"]
+            "user_id": "invalid", "place_id": place.id
         })
 
 def test_facade_update_review(facade, user_and_place):
@@ -112,14 +111,14 @@ def test_facade_update_review(facade, user_and_place):
     review = facade.create_review({
         "text": "Good",
         "rating": 3,
-        "user_id": user["id"],
-        "place_id": place["id"]
+        "user_id": user.id,
+        "place_id": place.id
     })
     updated = facade.update_review(review["id"], {
         "text": "Excellent",
         "rating": 5,
-        "user_id": user["id"],
-        "place_id": place["id"]
+        "user_id": user.id,
+        "place_id": place.id
     })
     assert updated["text"] == "Excellent"
 
@@ -128,8 +127,8 @@ def test_facade_delete_review(facade, user_and_place):
     review = facade.create_review({
         "text": "To be deleted",
         "rating": 2,
-        "user_id": user["id"],
-        "place_id": place["id"]
+        "user_id": user.id,
+        "place_id": place.id
     })
     facade.delete_review(review["id"])
     with pytest.raises(ValueError, match="Review not found"):

@@ -52,6 +52,10 @@ class HBnBFacade:
         )
 
         self.review_repo.add(new_review)
+        print("[DEBUG] Looking for user:", review_data['user_id'])
+        print("[DEBUG] User found?", user)
+        print("[DEBUG] Looking for place:", review_data['place_id'])
+        print("[DEBUG] Place found?", place)
         return new_review.to_dict()
 
     def get_review(self, review_id):
@@ -128,12 +132,27 @@ class HBnBFacade:
 
     def create_place(self, place_data):
         from app.models.place import Place
+
         amenity_ids = place_data.pop("amenities", [])
-        place = Place(**place_data)
+        owner_id = place_data.pop("owner_id", None)
+        
+        if not owner_id:
+            raise ValueError("Missing owner_id")
+
+        owner = self.user_repo.get(owner_id)
+        if not owner:
+            raise ValueError("Invalid owner_id")
+
+        place = Place(owner=owner, **place_data)
+
         for amenity_id in amenity_ids:
             amenity = self.amenity_repo.get(amenity_id)
             if amenity:
                 place.amenities.append(amenity)
+
+        print("place_data:", place_data)
+        print("owner_id:", owner_id)
+        print("owner object:", owner)
         self.place_repo.add(place)
         return place.to_dict()
 
@@ -152,3 +171,12 @@ class HBnBFacade:
 
     def delete_place(self, place_id):
         self.place_repo.delete(place_id)
+
+    def update_user(self, user_id, data):
+        user = self.user_repo.get(user_id)
+        if not user:
+            raise ValueError("User not found")
+        for key, value in data.items():
+            if hasattr(user, key):
+                setattr(user, key, value)
+        return user.to_dict()
