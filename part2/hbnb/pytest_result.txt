@@ -1,0 +1,170 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-8.4.0, pluggy-1.6.0
+rootdir: /home/costa/projects/trimestre_2/holbertonschool-hbnb/part2/hbnb
+configfile: pytest.ini
+collected 44 items
+
+tests/api/v1/test_amenities.py .......                                   [ 15%]
+tests/api/v1/test_reviews.py F...FF.FF                                   [ 36%]
+tests/models/test_amenity.py .....                                       [ 47%]
+tests/models/test_review.py .....F..                                     [ 65%]
+tests/services/test_facade.py ...............                            [100%]
+
+=================================== FAILURES ===================================
+__________________________ test_create_review_success __________________________
+
+client = <FlaskClient <Flask 'app'>>
+setup_user_place = (<app.models.user.User object at 0x7fe3e6c5c530>, <app.models.place.Place object at 0x7fe3e6c5ddf0>)
+
+    def test_create_review_success(client: FlaskClient, setup_user_place):
+        user, place = setup_user_place
+        review_data = {
+            "text": "Amazing stay!",
+            "rating": 5,
+            "user_id": user.id,
+            "place_id": place.id
+        }
+        response = client.post('/api/v1/reviews/', json=review_data)
+>       assert response.status_code == 201
+E       assert 400 == 201
+E        +  where 400 = <WrapperTestResponse streamed [400 BAD REQUEST]>.status_code
+
+tests/api/v1/test_reviews.py:40: AssertionError
+____________________________ test_get_review_by_id _____________________________
+
+client = <FlaskClient <Flask 'app'>>
+setup_user_place = (<app.models.user.User object at 0x7fe3e6ca6240>, <app.models.place.Place object at 0x7fe3e6ca5850>)
+
+    def test_get_review_by_id(client: FlaskClient, setup_user_place):
+        user, place = setup_user_place
+        post_resp = client.post('/api/v1/reviews/', json={
+            "text": "Very clean",
+            "rating": 5,
+            "user_id": user.id,
+            "place_id": place.id
+        })
+>       review_id = post_resp.json["id"]
+                    ^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'id'
+
+tests/api/v1/test_reviews.py:80: KeyError
+___________________________ test_put_review_success ____________________________
+
+client = <FlaskClient <Flask 'app'>>
+setup_user_place = (<app.models.user.User object at 0x7fe3e6ae2660>, <app.models.place.Place object at 0x7fe3e6ae2990>)
+
+    def test_put_review_success(client: FlaskClient, setup_user_place):
+        user, place = setup_user_place
+        post_resp = client.post('/api/v1/reviews/', json={
+            "text": "Good",
+            "rating": 3,
+            "user_id": user.id,
+            "place_id": place.id
+        })
+>       review_id = post_resp.json["id"]
+                    ^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'id'
+
+tests/api/v1/test_reviews.py:93: KeyError
+__________________________ test_delete_review_success __________________________
+
+client = <FlaskClient <Flask 'app'>>
+setup_user_place = (<app.models.user.User object at 0x7fe3e6b21760>, <app.models.place.Place object at 0x7fe3e6b21a30>)
+
+    def test_delete_review_success(client: FlaskClient, setup_user_place):
+        user, place = setup_user_place
+        post_resp = client.post('/api/v1/reviews/', json={
+            "text": "To be deleted",
+            "rating": 3,
+            "user_id": user.id,
+            "place_id": place.id
+        })
+>       review_id = post_resp.json["id"]
+                    ^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'id'
+
+tests/api/v1/test_reviews.py:125: KeyError
+__________________________ test_get_reviews_by_place ___________________________
+
+client = <FlaskClient <Flask 'app'>>
+setup_user_place = (<app.models.user.User object at 0x7fe3e6ae3200>, <app.models.place.Place object at 0x7fe3e6ae2660>)
+
+    def test_get_reviews_by_place(client: FlaskClient, setup_user_place):
+        user, place = setup_user_place
+        client.post('/api/v1/reviews/', json={
+            "text": "Place review",
+            "rating": 5,
+            "user_id": user.id,
+            "place_id": place.id
+        })
+        resp = client.get(f'/api/v1/reviews/places/{place.id}/reviews')
+>       assert resp.status_code == 200
+E       assert 404 == 200
+E        +  where 404 = <WrapperTestResponse streamed [404 NOT FOUND]>.status_code
+
+tests/api/v1/test_reviews.py:142: AssertionError
+__________________________ test_review_invalid_place ___________________________
+
+setup_valid_user_and_place = (<app.models.user.User object at 0x7fe3e6ae0710>, <app.models.place.Place object at 0x7fe3e6ae0920>)
+
+    def test_review_invalid_place(setup_valid_user_and_place):
+        user, _ = setup_valid_user_and_place
+>       fake_place = Place(title="Ghost", description="None", price=10.0, latitude=0, longitude=0, owner=user)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/models/test_review.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.models.place.Place object at 0x7fe3e6ae0950>, title = 'Ghost'
+price = 10.0, latitude = 0, longitude = 0
+owner = <app.models.user.User object at 0x7fe3e6ae0710>, description = 'None'
+
+    def __init__(self, title, price, latitude, longitude, owner, description=""):
+        super().__init__()
+    
+        self.title = title
+        self.description = description
+        self.price = price
+        self.latitude = latitude
+        self.longitude = longitude
+        self.owner = owner
+        self.owner_id = owner.id
+    
+        self.reviews = []
+        self.amenities = []
+    
+        if not isinstance(self.title, str):
+            raise TypeError("Title must be a string")
+        if not self.title or len(self.title) > 100:
+            raise ValueError("Title is required and must be at most 100 characters")
+    
+        if not isinstance(self.description, str):
+            raise TypeError("Description must be a string")
+        if self.description == "":
+            raise ValueError("Description is required")
+    
+        if not isinstance(self.price, float):
+            raise TypeError("Price must be a float number")
+        if self.price < 0:
+            raise ValueError("Price must be a positive number")
+    
+        if not isinstance(self.latitude, float):
+>           raise TypeError("Latitude must be a float")
+E           TypeError: Latitude must be a float
+
+app/models/place.py:38: TypeError
+=============================== warnings summary ===============================
+../../../holbertonschool-higher_level_programming/restful-api/.venv/lib/python3.12/site-packages/flask_restx/api.py:19
+../../../holbertonschool-higher_level_programming/restful-api/.venv/lib/python3.12/site-packages/flask_restx/api.py:19
+  /home/costa/projects/trimestre_2/holbertonschool-higher_level_programming/restful-api/.venv/lib/python3.12/site-packages/flask_restx/api.py:19: DeprecationWarning: jsonschema.RefResolver is deprecated as of v4.18.0, in favor of the https://github.com/python-jsonschema/referencing library, which provides more compliant referencing behavior as well as more flexible APIs for customization. A future release will remove RefResolver. Please file a feature request (on referencing) if you are missing an API for the kind of customization you need.
+    from jsonschema import RefResolver
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/api/v1/test_reviews.py::test_create_review_success - assert 400 ...
+FAILED tests/api/v1/test_reviews.py::test_get_review_by_id - KeyError: 'id'
+FAILED tests/api/v1/test_reviews.py::test_put_review_success - KeyError: 'id'
+FAILED tests/api/v1/test_reviews.py::test_delete_review_success - KeyError: 'id'
+FAILED tests/api/v1/test_reviews.py::test_get_reviews_by_place - assert 404 =...
+FAILED tests/models/test_review.py::test_review_invalid_place - TypeError: La...
+=================== 6 failed, 38 passed, 2 warnings in 0.20s ===================

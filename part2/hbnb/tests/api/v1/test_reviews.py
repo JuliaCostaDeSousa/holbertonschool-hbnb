@@ -21,9 +21,9 @@ def client():
 # --- Tests for Amenities API ---
 
 @pytest.fixture
-def setup_user_place():
+def setup_user_place(facade):
     user = User(first_name="John", last_name="Smith", email="john@example.com")
-    place = Place(title="Cabin", description="Nice cabin", price=100, latitude=45.0, longitude=5.0, owner=user)
+    place = Place(title="Cabin", description="Nice cabin", price=100.0, latitude=45.0, longitude=5.0, owner=user)
     facade.user_repo.add(user)
     facade.place_repo.add(place)
     return user, place

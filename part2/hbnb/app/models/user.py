@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 from app.models.base_model import BaseModel
-from app.models.place import Place
 import re
 
 

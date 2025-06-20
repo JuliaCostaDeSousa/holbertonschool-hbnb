@@ -18,6 +18,7 @@ class Amenity(BaseModel):
         if not value.strip():
             raise ValueError("name is required and cannot be empty")
         self.__name = value
+        self.save()
 
     def to_dict(self):
         return {

@@ -1,11 +1,11 @@
 #!/usr/bin/python3
-
+from app.models.user import User
 from app.models.base_model import BaseModel
 from app.services import facade
 
 
 class Place(BaseModel):
-    def __init__(self, title, price, latitude, longitude, owner_id, description=""):
+    def __init__(self, title, price, latitude, longitude, owner, description=""):
         super().__init__()
 
         self.title = title
@@ -13,7 +13,8 @@ class Place(BaseModel):
         self.price = price
         self.latitude = latitude
         self.longitude = longitude
-        self.owner_id = owner_id
+        self.owner = owner
+        self.owner_id = owner.id
 
         self.reviews = []
         self.amenities = []
@@ -43,7 +44,7 @@ class Place(BaseModel):
         if not (-180.0 <= self.longitude <= 180.0):
             raise ValueError("Longitude must be between -180.0 and 180.0")
 
-        if not isinstance(self.owner_id, str):
+        if not isinstance(self.owner, User):
             raise TypeError("Owner must be an instance of User")
 
     def add_review(self, review):
@@ -68,6 +69,6 @@ class Place(BaseModel):
             "price": self.price,
             "latitude": self.latitude,
             "longitude": self.longitude,
-            "owner_id": self.owner_id,
+            "owner": self.owner,
             "amenities": [facade.get_amenity(a).to_dict() for a in self.amenities]
         }

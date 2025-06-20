@@ -32,11 +32,11 @@ def test_facade_update_amenity(facade):
     updated = facade.update_amenity(created["id"], {"name": "Jacuzzi"})
     assert updated["name"] == "Jacuzzi"
 
-def test_get_amenity_invalid_id():
+def test_get_amenity_invalid_id(facade):
     with pytest.raises(ValueError):
         facade.get_amenity("non-existent-id")
 
-def test_update_amenity_invalid_id():
+def test_update_amenity_invalid_id(facade):
     with pytest.raises(ValueError):
         facade.update_amenity("wrong-id", {"name": "Pool"})
 
@@ -91,37 +91,37 @@ def test_facade_delete_review(facade, user_and_place):
     with pytest.raises(ValueError, match="Review not found"):
         facade.get_review(review["id"])
 
-def test_create_review_invalid_user(setup_user_place):
-    _, place = setup_user_place
+def test_create_review_invalid_user(facade, user_and_place):
+    _, place = user_and_place
     with pytest.raises(ValueError):
         facade.create_review({
             "text": "Good", "rating": 5,
             "user_id": "wrong-id", "place_id": place.id
         })
 
-def test_create_review_invalid_place(setup_user_place):
-    user, _ = setup_user_place
+def test_create_review_invalid_place(facade, user_and_place):
+    user, _ = user_and_place
     with pytest.raises(ValueError):
         facade.create_review({
             "text": "Good", "rating": 5,
             "user_id": user.id, "place_id": "wrong-id"
         })
 
-def test_get_review_not_found():
+def test_get_review_not_found(facade):
     with pytest.raises(ValueError):
         facade.get_review("missing-id")
 
-def test_update_review_not_found():
+def test_update_review_not_found(facade):
     with pytest.raises(ValueError):
         facade.update_review("no-id", {
             "text": "Edit", "rating": 3,
             "user_id": "u1", "place_id": "p1"
         })
 
-def test_delete_review_not_found():
+def test_delete_review_not_found(facade):
     with pytest.raises(ValueError):
         facade.delete_review("not-found-id")
 
-def test_get_reviews_by_place_not_found():
+def test_get_reviews_by_place_not_found(facade):
     with pytest.raises(ValueError):
         facade.get_reviews_by_place("bad-place-id")
