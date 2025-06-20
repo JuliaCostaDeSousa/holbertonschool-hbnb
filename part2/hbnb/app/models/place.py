@@ -69,6 +69,6 @@ class Place(BaseModel):
             "price": self.price,
             "latitude": self.latitude,
             "longitude": self.longitude,
-            "owner": self.owner,
-            "amenities": [facade.get_amenity(a).to_dict() for a in self.amenities]
+            "owner_id": self.owner_id,
+            "amenities": [a.to_dict() for a in self.amenities if hasattr(a, "to_dict")]
         }

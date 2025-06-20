@@ -1,0 +1,1111 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.6.0 -- /home/costa/projects/trimestre_2/holbertonschool-hbnb/part2/hbnb/.venv/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/costa/projects/trimestre_2/holbertonschool-hbnb/part2/hbnb
+configfile: pytest.ini
+collecting ... collected 86 items
+
+tests/api/v1/test_amenities.py::test_create_amenity_success PASSED       [  1%]
+tests/api/v1/test_amenities.py::test_create_amenity_missing_name PASSED  [  2%]
+tests/api/v1/test_amenities.py::test_create_amenity_invalid_type PASSED  [  3%]
+tests/api/v1/test_amenities.py::test_get_all_amenities PASSED            [  4%]
+tests/api/v1/test_amenities.py::test_put_amenity_success PASSED          [  5%]
+tests/api/v1/test_amenities.py::test_put_amenity_not_found PASSED        [  6%]
+tests/api/v1/test_amenities.py::test_get_amenity_by_id PASSED            [  8%]
+tests/api/v1/test_places.py::test_create_place_success FAILED            [  9%]
+tests/api/v1/test_places.py::test_get_all_places FAILED                  [ 10%]
+tests/api/v1/test_places.py::test_get_place_by_id FAILED                 [ 11%]
+tests/api/v1/test_places.py::test_update_place_success FAILED            [ 12%]
+tests/api/v1/test_places.py::test_get_place_not_found FAILED             [ 13%]
+tests/api/v1/test_places.py::test_update_place_not_found FAILED          [ 15%]
+tests/api/v1/test_reviews.py::test_create_review_success FAILED          [ 16%]
+tests/api/v1/test_reviews.py::test_create_review_missing_field PASSED    [ 17%]
+tests/api/v1/test_reviews.py::test_create_review_invalid_rating_type PASSED [ 18%]
+tests/api/v1/test_reviews.py::test_get_all_reviews PASSED                [ 19%]
+tests/api/v1/test_reviews.py::test_get_review_by_id FAILED               [ 20%]
+tests/api/v1/test_reviews.py::test_put_review_success FAILED             [ 22%]
+tests/api/v1/test_reviews.py::test_put_review_not_found PASSED           [ 23%]
+tests/api/v1/test_reviews.py::test_delete_review_success FAILED          [ 24%]
+tests/api/v1/test_reviews.py::test_get_reviews_by_place FAILED           [ 25%]
+tests/api/v1/test_users.py::test_create_user_success FAILED              [ 26%]
+tests/api/v1/test_users.py::test_create_user_duplicate_email FAILED      [ 27%]
+tests/api/v1/test_users.py::test_get_all_users FAILED                    [ 29%]
+tests/api/v1/test_users.py::test_get_user_by_id FAILED                   [ 30%]
+tests/api/v1/test_users.py::test_get_user_not_found PASSED               [ 31%]
+tests/api/v1/test_users.py::test_update_user_success FAILED              [ 32%]
+tests/api/v1/test_users.py::test_update_user_not_found PASSED            [ 33%]
+tests/models/test_amenity.py::test_amenity_creation_valid PASSED         [ 34%]
+tests/models/test_amenity.py::test_amenity_invalid_type PASSED           [ 36%]
+tests/models/test_amenity.py::test_amenity_name_too_long PASSED          [ 37%]
+tests/models/test_amenity.py::test_amenity_empty_name PASSED             [ 38%]
+tests/models/test_amenity.py::test_amenity_setter_updates_timestamp PASSED [ 39%]
+tests/models/test_place.py::test_valid_place_creation PASSED             [ 40%]
+tests/models/test_place.py::test_invalid_place_inputs[title-123-TypeError] PASSED [ 41%]
+tests/models/test_place.py::test_invalid_place_inputs[title--ValueError] PASSED [ 43%]
+tests/models/test_place.py::test_invalid_place_inputs[description-456-TypeError] PASSED [ 44%]
+tests/models/test_place.py::test_invalid_place_inputs[description--ValueError] PASSED [ 45%]
+tests/models/test_place.py::test_invalid_place_inputs[price-100-TypeError] PASSED [ 46%]
+tests/models/test_place.py::test_invalid_place_inputs[price--10.0-ValueError] PASSED [ 47%]
+tests/models/test_place.py::test_invalid_place_inputs[latitude-45N-TypeError] PASSED [ 48%]
+tests/models/test_place.py::test_invalid_place_inputs[latitude--200.0-ValueError] PASSED [ 50%]
+tests/models/test_place.py::test_invalid_place_inputs[longitude-value8-TypeError] PASSED [ 51%]
+tests/models/test_place.py::test_invalid_place_inputs[longitude--300.0-ValueError] PASSED [ 52%]
+tests/models/test_place.py::test_invalid_place_inputs[owner-not_user-TypeError] FAILED [ 53%]
+tests/models/test_place.py::test_add_and_remove_review PASSED            [ 54%]
+tests/models/test_place.py::test_add_and_remove_amenity PASSED           [ 55%]
+tests/models/test_review.py::test_review_creation_valid PASSED           [ 56%]
+tests/models/test_review.py::test_review_invalid_text_type PASSED        [ 58%]
+tests/models/test_review.py::test_review_empty_text PASSED               [ 59%]
+tests/models/test_review.py::test_review_invalid_rating_type PASSED      [ 60%]
+tests/models/test_review.py::test_review_rating_out_of_bounds PASSED     [ 61%]
+tests/models/test_review.py::test_review_invalid_place FAILED            [ 62%]
+tests/models/test_review.py::test_review_invalid_user PASSED             [ 63%]
+tests/models/test_review.py::test_review_setter_updates_timestamp PASSED [ 65%]
+tests/models/test_user.py::test_user_creation PASSED                     [ 66%]
+tests/models/test_user.py::test_invalid_user_inputs[first_name-123-TypeError] PASSED [ 67%]
+tests/models/test_user.py::test_invalid_user_inputs[first_name--ValueError] PASSED [ 68%]
+tests/models/test_user.py::test_invalid_user_inputs[first_name-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA-ValueError] PASSED [ 69%]
+tests/models/test_user.py::test_invalid_user_inputs[last_name-None-TypeError] PASSED [ 70%]
+tests/models/test_user.py::test_invalid_user_inputs[last_name--ValueError] PASSED [ 72%]
+tests/models/test_user.py::test_invalid_user_inputs[last_name-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB-ValueError] PASSED [ 73%]
+tests/models/test_user.py::test_invalid_user_inputs[email-999-TypeError] PASSED [ 74%]
+tests/models/test_user.py::test_invalid_user_inputs[email-invalidemail-ValueError] PASSED [ 75%]
+tests/models/test_user.py::test_invalid_user_inputs[email-test@invalid.xyz-ValueError] PASSED [ 76%]
+tests/models/test_user.py::test_invalid_user_inputs[is_admin-yes-TypeError] PASSED [ 77%]
+tests/models/test_user.py::test_user_email_validation PASSED             [ 79%]
+tests/models/test_user.py::test_add_and_remove_place PASSED              [ 80%]
+tests/models/test_user.py::test_user_to_dict PASSED                      [ 81%]
+tests/models/test_user.py::test_user_str PASSED                          [ 82%]
+tests/services/test_facade.py::test_facade_create_amenity PASSED         [ 83%]
+tests/services/test_facade.py::test_facade_get_amenity_not_found PASSED  [ 84%]
+tests/services/test_facade.py::test_facade_update_amenity PASSED         [ 86%]
+tests/services/test_facade.py::test_facade_create_user PASSED            [ 87%]
+tests/services/test_facade.py::test_facade_get_user_by_email PASSED      [ 88%]
+tests/services/test_facade.py::test_facade_update_user FAILED            [ 89%]
+tests/services/test_facade.py::test_facade_create_place FAILED           [ 90%]
+tests/services/test_facade.py::test_facade_create_review FAILED          [ 91%]
+tests/services/test_facade.py::test_facade_create_review_invalid_user FAILED [ 93%]
+tests/services/test_facade.py::test_facade_update_review FAILED          [ 94%]
+tests/services/test_facade.py::test_facade_delete_review FAILED          [ 95%]
+tests/services/test_facade.py::test_get_review_not_found PASSED          [ 96%]
+tests/services/test_facade.py::test_update_review_not_found PASSED       [ 97%]
+tests/services/test_facade.py::test_delete_review_not_found PASSED       [ 98%]
+tests/services/test_facade.py::test_get_reviews_by_place_not_found PASSED [100%]
+
+=================================== FAILURES ===================================
+__________________________ test_create_place_success ___________________________
+
+client = <FlaskClient <Flask 'app'>>
+setup_user_and_amenities = (<app.models.user.User object at 0x7ff167703530>, [<app.models.amenity.Amenity object at 0x7ff1675208f0>, <app.models.amenity.Amenity object at 0x7ff1675209e0>])
+
+    def test_create_place_success(client: FlaskClient, setup_user_and_amenities):
+        user, amenities = setup_user_and_amenities
+        place_data = {
+            "title": "Sunny Villa",
+            "description": "A nice place by the beach",
+            "price": 150.0,
+            "latitude": 36.5,
+            "longitude": -5.9,
+            "owner": user.id,
+            "amenities": [a.id for a in amenities]
+        }
+    
+>       response = client.post("/api/v1/places/", json=place_data)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/api/v1/test_places.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.12/site-packages/werkzeug/test.py:1167: in post
+    return self.open(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/testing.py:235: in open
+    response = super().open(
+.venv/lib/python3.12/site-packages/werkzeug/test.py:1116: in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/werkzeug/test.py:988: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/werkzeug/test.py:1264: in run_wsgi_app
+    app_rv = app(environ, start_response)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:1536: in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:1514: in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:671: in error_router
+    return original_handler(f)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:672: in error_router
+    return original_handler(e)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:669: in error_router
+    return self.handle_error(e)
+           ^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:1511: in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:919: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:671: in error_router
+    return original_handler(f)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:672: in error_router
+    return original_handler(e)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:669: in error_router
+    return self.handle_error(e)
+           ^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:917: in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:902: in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:402: in wrapper
+    resp = resource(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/views.py:110: in view
+    return current_app.ensure_sync(self.dispatch_request)(**kwargs)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/resource.py:41: in dispatch_request
+    resp = meth(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+app/api/v1/places.py:42: in post
+    new_place = facade.create_place(place_data)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/services/facade.py:132: in create_place
+    place = Place(**place_data)
+            ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.models.place.Place object at 0x7ff167520f50>, title = 'Sunny Villa'
+price = 150.0, latitude = 36.5, longitude = -5.9
+owner = '2e3a6a87-cf8c-44a5-a95f-c3b42fc164f4'
+description = 'A nice place by the beach'
+
+    def __init__(self, title, price, latitude, longitude, owner, description=""):
+        super().__init__()
+    
+        self.title = title
+        self.description = description
+        self.price = price
+        self.latitude = latitude
+        self.longitude = longitude
+        self.owner = owner
+>       self.owner_id = owner.id
+                        ^^^^^^^^
+E       AttributeError: 'str' object has no attribute 'id'
+
+app/models/place.py:17: AttributeError
+_____________________________ test_get_all_places ______________________________
+
+client = <FlaskClient <Flask 'app'>>
+setup_user_and_amenities = (<app.models.user.User object at 0x7ff1676dce00>, [<app.models.amenity.Amenity object at 0x7ff1676df380>, <app.models.amenity.Amenity object at 0x7ff1676df680>])
+
+    def test_get_all_places(client: FlaskClient, setup_user_and_amenities):
+        user, amenities = setup_user_and_amenities
+>       client.post("/api/v1/places/", json={
+            "title": "Mountain Cabin",
+            "description": "Great view",
+            "price": 90.0,
+            "latitude": 44.1,
+            "longitude": 6.5,
+            "owner": user.id,
+            "amenities": [a.id for a in amenities]
+        })
+
+tests/api/v1/test_places.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.12/site-packages/werkzeug/test.py:1167: in post
+    return self.open(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/testing.py:235: in open
+    response = super().open(
+.venv/lib/python3.12/site-packages/werkzeug/test.py:1116: in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/werkzeug/test.py:988: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/werkzeug/test.py:1264: in run_wsgi_app
+    app_rv = app(environ, start_response)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:1536: in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:1514: in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:671: in error_router
+    return original_handler(f)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:672: in error_router
+    return original_handler(e)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:669: in error_router
+    return self.handle_error(e)
+           ^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:1511: in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:919: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:671: in error_router
+    return original_handler(f)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:672: in error_router
+    return original_handler(e)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:669: in error_router
+    return self.handle_error(e)
+           ^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:917: in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:902: in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:402: in wrapper
+    resp = resource(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/views.py:110: in view
+    return current_app.ensure_sync(self.dispatch_request)(**kwargs)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/resource.py:41: in dispatch_request
+    resp = meth(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+app/api/v1/places.py:42: in post
+    new_place = facade.create_place(place_data)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/services/facade.py:132: in create_place
+    place = Place(**place_data)
+            ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.models.place.Place object at 0x7ff1676df8f0>
+title = 'Mountain Cabin', price = 90.0, latitude = 44.1, longitude = 6.5
+owner = 'ad0b39db-2200-4fdc-8747-3cafe3e5a54b', description = 'Great view'
+
+    def __init__(self, title, price, latitude, longitude, owner, description=""):
+        super().__init__()
+    
+        self.title = title
+        self.description = description
+        self.price = price
+        self.latitude = latitude
+        self.longitude = longitude
+        self.owner = owner
+>       self.owner_id = owner.id
+                        ^^^^^^^^
+E       AttributeError: 'str' object has no attribute 'id'
+
+app/models/place.py:17: AttributeError
+_____________________________ test_get_place_by_id _____________________________
+
+client = <FlaskClient <Flask 'app'>>
+setup_user_and_amenities = (<app.models.user.User object at 0x7ff1675229f0>, [<app.models.amenity.Amenity object at 0x7ff1675eef00>, <app.models.amenity.Amenity object at 0x7ff1675ee750>])
+
+    def test_get_place_by_id(client: FlaskClient, setup_user_and_amenities):
+        user, amenities = setup_user_and_amenities
+>       resp = client.post("/api/v1/places/", json={
+            "title": "Forest Hut",
+            "description": "Secluded spot",
+            "price": 75.0,
+            "latitude": 47.1,
+            "longitude": 3.5,
+            "owner": user.id,
+            "amenities": [a.id for a in amenities]
+        })
+
+tests/api/v1/test_places.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.12/site-packages/werkzeug/test.py:1167: in post
+    return self.open(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/testing.py:235: in open
+    response = super().open(
+.venv/lib/python3.12/site-packages/werkzeug/test.py:1116: in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/werkzeug/test.py:988: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/werkzeug/test.py:1264: in run_wsgi_app
+    app_rv = app(environ, start_response)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:1536: in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:1514: in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:671: in error_router
+    return original_handler(f)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:672: in error_router
+    return original_handler(e)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:669: in error_router
+    return self.handle_error(e)
+           ^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:1511: in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:919: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:671: in error_router
+    return original_handler(f)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:672: in error_router
+    return original_handler(e)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:669: in error_router
+    return self.handle_error(e)
+           ^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:917: in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:902: in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:402: in wrapper
+    resp = resource(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/views.py:110: in view
+    return current_app.ensure_sync(self.dispatch_request)(**kwargs)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/resource.py:41: in dispatch_request
+    resp = meth(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+app/api/v1/places.py:42: in post
+    new_place = facade.create_place(place_data)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/services/facade.py:132: in create_place
+    place = Place(**place_data)
+            ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.models.place.Place object at 0x7ff1675ec620>, title = 'Forest Hut'
+price = 75.0, latitude = 47.1, longitude = 3.5
+owner = 'd550d700-06df-48d3-905b-9ba5831b0944', description = 'Secluded spot'
+
+    def __init__(self, title, price, latitude, longitude, owner, description=""):
+        super().__init__()
+    
+        self.title = title
+        self.description = description
+        self.price = price
+        self.latitude = latitude
+        self.longitude = longitude
+        self.owner = owner
+>       self.owner_id = owner.id
+                        ^^^^^^^^
+E       AttributeError: 'str' object has no attribute 'id'
+
+app/models/place.py:17: AttributeError
+__________________________ test_update_place_success ___________________________
+
+client = <FlaskClient <Flask 'app'>>
+setup_user_and_amenities = (<app.models.user.User object at 0x7ff1675ee390>, [<app.models.amenity.Amenity object at 0x7ff1675b2390>, <app.models.amenity.Amenity object at 0x7ff1675b2420>])
+
+    def test_update_place_success(client: FlaskClient, setup_user_and_amenities):
+        user, amenities = setup_user_and_amenities
+>       post_resp = client.post("/api/v1/places/", json={
+            "title": "Tiny Home",
+            "description": "Cozy",
+            "price": 50.0,
+            "latitude": 50.0,
+            "longitude": 2.0,
+            "owner": user.id,
+            "amenities": [a.id for a in amenities]
+        })
+
+tests/api/v1/test_places.py:77: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.12/site-packages/werkzeug/test.py:1167: in post
+    return self.open(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/testing.py:235: in open
+    response = super().open(
+.venv/lib/python3.12/site-packages/werkzeug/test.py:1116: in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/werkzeug/test.py:988: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/werkzeug/test.py:1264: in run_wsgi_app
+    app_rv = app(environ, start_response)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:1536: in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:1514: in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:671: in error_router
+    return original_handler(f)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:672: in error_router
+    return original_handler(e)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:669: in error_router
+    return self.handle_error(e)
+           ^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:1511: in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:919: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:671: in error_router
+    return original_handler(f)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:672: in error_router
+    return original_handler(e)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:669: in error_router
+    return self.handle_error(e)
+           ^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:917: in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:902: in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:402: in wrapper
+    resp = resource(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/views.py:110: in view
+    return current_app.ensure_sync(self.dispatch_request)(**kwargs)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/resource.py:41: in dispatch_request
+    resp = meth(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+app/api/v1/places.py:42: in post
+    new_place = facade.create_place(place_data)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/services/facade.py:132: in create_place
+    place = Place(**place_data)
+            ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.models.place.Place object at 0x7ff1675b2a50>, title = 'Tiny Home'
+price = 50.0, latitude = 50.0, longitude = 2.0
+owner = 'cb08f0b1-3915-4ce8-a4f0-a8111cd2d33c', description = 'Cozy'
+
+    def __init__(self, title, price, latitude, longitude, owner, description=""):
+        super().__init__()
+    
+        self.title = title
+        self.description = description
+        self.price = price
+        self.latitude = latitude
+        self.longitude = longitude
+        self.owner = owner
+>       self.owner_id = owner.id
+                        ^^^^^^^^
+E       AttributeError: 'str' object has no attribute 'id'
+
+app/models/place.py:17: AttributeError
+___________________________ test_get_place_not_found ___________________________
+
+client = <FlaskClient <Flask 'app'>>
+
+    def test_get_place_not_found(client: FlaskClient):
+>       response = client.get("/api/v1/places/nonexistent-id")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/api/v1/test_places.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.12/site-packages/werkzeug/test.py:1162: in get
+    return self.open(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/testing.py:235: in open
+    response = super().open(
+.venv/lib/python3.12/site-packages/werkzeug/test.py:1116: in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/werkzeug/test.py:988: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/werkzeug/test.py:1264: in run_wsgi_app
+    app_rv = app(environ, start_response)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:1536: in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:1514: in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:671: in error_router
+    return original_handler(f)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:672: in error_router
+    return original_handler(e)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:669: in error_router
+    return self.handle_error(e)
+           ^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:1511: in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:919: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:671: in error_router
+    return original_handler(f)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:672: in error_router
+    return original_handler(e)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:669: in error_router
+    return self.handle_error(e)
+           ^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:917: in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:902: in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:402: in wrapper
+    resp = resource(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/views.py:110: in view
+    return current_app.ensure_sync(self.dispatch_request)(**kwargs)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/resource.py:41: in dispatch_request
+    resp = meth(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+app/api/v1/places.py:95: in get
+    place = facade.get_place(place_id)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.services.facade.HBnBFacade object at 0x7ff1678f09e0>
+place_id = 'nonexistent-id'
+
+    def get_place(self, place_id):
+        place = self.place_repo.get(place_id)
+        if place is None:
+>           raise ValueError("Place not found")
+E           ValueError: Place not found
+
+app/services/facade.py:143: ValueError
+_________________________ test_update_place_not_found __________________________
+
+client = <FlaskClient <Flask 'app'>>
+
+    def test_update_place_not_found(client: FlaskClient):
+>       response = client.put("/api/v1/places/nonexistent-id", json={
+            "title": "Nowhere",
+            "description": "This should fail",
+            "price": 99.0,
+            "latitude": 0.0,
+            "longitude": 0.0,
+            "owner": "fake-owner-id",
+            "amenities": []
+        })
+
+tests/api/v1/test_places.py:108: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.12/site-packages/werkzeug/test.py:1172: in put
+    return self.open(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/testing.py:235: in open
+    response = super().open(
+.venv/lib/python3.12/site-packages/werkzeug/test.py:1116: in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/werkzeug/test.py:988: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/werkzeug/test.py:1264: in run_wsgi_app
+    app_rv = app(environ, start_response)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:1536: in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:1514: in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:671: in error_router
+    return original_handler(f)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:672: in error_router
+    return original_handler(e)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:669: in error_router
+    return self.handle_error(e)
+           ^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:1511: in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:919: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:671: in error_router
+    return original_handler(f)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:672: in error_router
+    return original_handler(e)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:669: in error_router
+    return self.handle_error(e)
+           ^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:917: in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/app.py:902: in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/api.py:402: in wrapper
+    resp = resource(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask/views.py:110: in view
+    return current_app.ensure_sync(self.dispatch_request)(**kwargs)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flask_restx/resource.py:41: in dispatch_request
+    resp = meth(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+app/api/v1/places.py:124: in put
+    place = facade.get_place(place_id)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.services.facade.HBnBFacade object at 0x7ff1678f09e0>
+place_id = 'nonexistent-id'
+
+    def get_place(self, place_id):
+        place = self.place_repo.get(place_id)
+        if place is None:
+>           raise ValueError("Place not found")
+E           ValueError: Place not found
+
+app/services/facade.py:143: ValueError
+__________________________ test_create_review_success __________________________
+
+client = <FlaskClient <Flask 'app'>>
+setup_user_place = (<app.models.user.User object at 0x7ff168b6de50>, <app.models.place.Place object at 0x7ff1675de8a0>)
+
+    def test_create_review_success(client: FlaskClient, setup_user_place):
+        user, place = setup_user_place
+        review_data = {
+            "text": "Amazing stay!",
+            "rating": 5,
+            "user_id": user.id,
+            "place_id": place.id
+        }
+        response = client.post('/api/v1/reviews/', json=review_data)
+>       assert response.status_code == 201
+E       assert 400 == 201
+E        +  where 400 = <WrapperTestResponse streamed [400 BAD REQUEST]>.status_code
+
+tests/api/v1/test_reviews.py:40: AssertionError
+____________________________ test_get_review_by_id _____________________________
+
+client = <FlaskClient <Flask 'app'>>
+setup_user_place = (<app.models.user.User object at 0x7ff1670b4e60>, <app.models.place.Place object at 0x7ff1670b5880>)
+
+    def test_get_review_by_id(client: FlaskClient, setup_user_place):
+        user, place = setup_user_place
+        post_resp = client.post('/api/v1/reviews/', json={
+            "text": "Very clean",
+            "rating": 5,
+            "user_id": user.id,
+            "place_id": place.id
+        })
+>       review_id = post_resp.json["id"]
+                    ^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'id'
+
+tests/api/v1/test_reviews.py:80: KeyError
+___________________________ test_put_review_success ____________________________
+
+client = <FlaskClient <Flask 'app'>>
+setup_user_place = (<app.models.user.User object at 0x7ff16707d4c0>, <app.models.place.Place object at 0x7ff16707e000>)
+
+    def test_put_review_success(client: FlaskClient, setup_user_place):
+        user, place = setup_user_place
+        post_resp = client.post('/api/v1/reviews/', json={
+            "text": "Good",
+            "rating": 3,
+            "user_id": user.id,
+            "place_id": place.id
+        })
+>       review_id = post_resp.json["id"]
+                    ^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'id'
+
+tests/api/v1/test_reviews.py:93: KeyError
+__________________________ test_delete_review_success __________________________
+
+client = <FlaskClient <Flask 'app'>>
+setup_user_place = (<app.models.user.User object at 0x7ff1670e55e0>, <app.models.place.Place object at 0x7ff1670e5fd0>)
+
+    def test_delete_review_success(client: FlaskClient, setup_user_place):
+        user, place = setup_user_place
+        post_resp = client.post('/api/v1/reviews/', json={
+            "text": "To be deleted",
+            "rating": 3,
+            "user_id": user.id,
+            "place_id": place.id
+        })
+>       review_id = post_resp.json["id"]
+                    ^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'id'
+
+tests/api/v1/test_reviews.py:125: KeyError
+__________________________ test_get_reviews_by_place ___________________________
+
+client = <FlaskClient <Flask 'app'>>
+setup_user_place = (<app.models.user.User object at 0x7ff1670c6510>, <app.models.place.Place object at 0x7ff1670c65d0>)
+
+    def test_get_reviews_by_place(client: FlaskClient, setup_user_place):
+        user, place = setup_user_place
+        client.post('/api/v1/reviews/', json={
+            "text": "Place review",
+            "rating": 5,
+            "user_id": user.id,
+            "place_id": place.id
+        })
+        resp = client.get(f'/api/v1/reviews/places/{place.id}/reviews')
+>       assert resp.status_code == 200
+E       assert 404 == 200
+E        +  where 404 = <WrapperTestResponse streamed [404 NOT FOUND]>.status_code
+
+tests/api/v1/test_reviews.py:142: AssertionError
+___________________________ test_create_user_success ___________________________
+
+client = <FlaskClient <Flask 'app'>>
+user_data = {'email': 'alice@example.com', 'first_name': 'Alice', 'last_name': 'Doe'}
+
+    def test_create_user_success(client: FlaskClient, user_data):
+        response = client.post('/api/v1/users/', json=user_data)
+>       assert response.status_code == 201
+E       assert 404 == 201
+E        +  where 404 = <WrapperTestResponse streamed [404 NOT FOUND]>.status_code
+
+tests/api/v1/test_users.py:14: AssertionError
+_______________________ test_create_user_duplicate_email _______________________
+
+client = <FlaskClient <Flask 'app'>>
+user_data = {'email': 'alice@example.com', 'first_name': 'Alice', 'last_name': 'Doe'}
+
+    def test_create_user_duplicate_email(client: FlaskClient, user_data):
+        client.post('/api/v1/users/', json=user_data)
+        response = client.post('/api/v1/users/', json=user_data)
+>       assert response.status_code == 400
+E       assert 404 == 400
+E        +  where 404 = <WrapperTestResponse streamed [404 NOT FOUND]>.status_code
+
+tests/api/v1/test_users.py:22: AssertionError
+______________________________ test_get_all_users ______________________________
+
+client = <FlaskClient <Flask 'app'>>
+user_data = {'email': 'alice@example.com', 'first_name': 'Alice', 'last_name': 'Doe'}
+
+    def test_get_all_users(client: FlaskClient, user_data):
+        client.post('/api/v1/users/', json=user_data)
+        response = client.get('/api/v1/users/')
+>       assert response.status_code == 200
+E       assert 404 == 200
+E        +  where 404 = <WrapperTestResponse streamed [404 NOT FOUND]>.status_code
+
+tests/api/v1/test_users.py:28: AssertionError
+_____________________________ test_get_user_by_id ______________________________
+
+client = <FlaskClient <Flask 'app'>>
+user_data = {'email': 'alice@example.com', 'first_name': 'Alice', 'last_name': 'Doe'}
+
+    def test_get_user_by_id(client: FlaskClient, user_data):
+        post_resp = client.post('/api/v1/users/', json=user_data)
+>       user_id = post_resp.get_json()["id"]
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+tests/api/v1/test_users.py:35: TypeError
+___________________________ test_update_user_success ___________________________
+
+client = <FlaskClient <Flask 'app'>>
+user_data = {'email': 'alice@example.com', 'first_name': 'Alice', 'last_name': 'Doe'}
+
+    def test_update_user_success(client: FlaskClient, user_data):
+        post_resp = client.post('/api/v1/users/', json=user_data)
+>       user_id = post_resp.get_json()["id"]
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+tests/api/v1/test_users.py:46: TypeError
+_____________ test_invalid_place_inputs[owner-not_user-TypeError] ______________
+
+field = 'owner', value = 'not_user', error = <class 'TypeError'>
+user = <app.models.user.User object at 0x7ff1671199a0>
+
+    @pytest.mark.parametrize("field,value,error", [
+        ("title", 123, TypeError),
+        ("title", "", ValueError),
+        ("description", 456, TypeError),
+        ("description", "", ValueError),
+        ("price", "100", TypeError),
+        ("price", -10.0, ValueError),
+        ("latitude", "45N", TypeError),
+        ("latitude", -200.0, ValueError),
+        ("longitude", [], TypeError),
+        ("longitude", -300.0, ValueError),
+        ("owner", "not_user", TypeError),
+    ])
+    def test_invalid_place_inputs(field, value, error, user):
+        kwargs = {
+            "title": "Valid",
+            "description": "Valid desc",
+            "price": 100.0,
+            "latitude": 0.0,
+            "longitude": 0.0,
+            "owner": user
+        }
+        kwargs[field] = value
+        with pytest.raises(error):
+>           Place(**kwargs)
+
+tests/models/test_place.py:54: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.models.place.Place object at 0x7ff167119eb0>, title = 'Valid'
+price = 100.0, latitude = 0.0, longitude = 0.0, owner = 'not_user'
+description = 'Valid desc'
+
+    def __init__(self, title, price, latitude, longitude, owner, description=""):
+        super().__init__()
+    
+        self.title = title
+        self.description = description
+        self.price = price
+        self.latitude = latitude
+        self.longitude = longitude
+        self.owner = owner
+>       self.owner_id = owner.id
+                        ^^^^^^^^
+E       AttributeError: 'str' object has no attribute 'id'
+
+app/models/place.py:17: AttributeError
+__________________________ test_review_invalid_place ___________________________
+
+setup_valid_user_and_place = (<app.models.user.User object at 0x7ff167047f80>, <app.models.place.Place object at 0x7ff167047f50>)
+
+    def test_review_invalid_place(setup_valid_user_and_place):
+        user, _ = setup_valid_user_and_place
+>       fake_place = Place(title="Ghost", description="None", price=10.0, latitude=0, longitude=0, owner=user)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/models/test_review.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.models.place.Place object at 0x7ff167047e60>, title = 'Ghost'
+price = 10.0, latitude = 0, longitude = 0
+owner = <app.models.user.User object at 0x7ff167047f80>, description = 'None'
+
+    def __init__(self, title, price, latitude, longitude, owner, description=""):
+        super().__init__()
+    
+        self.title = title
+        self.description = description
+        self.price = price
+        self.latitude = latitude
+        self.longitude = longitude
+        self.owner = owner
+        self.owner_id = owner.id
+    
+        self.reviews = []
+        self.amenities = []
+    
+        if not isinstance(self.title, str):
+            raise TypeError("Title must be a string")
+        if not self.title or len(self.title) > 100:
+            raise ValueError("Title is required and must be at most 100 characters")
+    
+        if not isinstance(self.description, str):
+            raise TypeError("Description must be a string")
+        if self.description == "":
+            raise ValueError("Description is required")
+    
+        if not isinstance(self.price, float):
+            raise TypeError("Price must be a float number")
+        if self.price < 0:
+            raise ValueError("Price must be a positive number")
+    
+        if not isinstance(self.latitude, float):
+>           raise TypeError("Latitude must be a float")
+E           TypeError: Latitude must be a float
+
+app/models/place.py:38: TypeError
+___________________________ test_facade_update_user ____________________________
+
+facade = <app.services.facade.HBnBFacade object at 0x7ff1670476e0>
+
+    def test_facade_update_user(facade):
+        user = facade.create_user({
+            "first_name": "Amy",
+            "last_name": "Winehouse",
+            "email": "amy@soul.com"
+        })
+>       updated = facade.update_user(user["id"], {
+                  ^^^^^^^^^^^^^^^^^^
+            "first_name": "Amelia",
+            "last_name": "Winehouse",
+            "email": "amelia@soul.com"
+        })
+E       AttributeError: 'HBnBFacade' object has no attribute 'update_user'. Did you mean: 'create_user'?
+
+tests/services/test_facade.py:61: AttributeError
+___________________________ test_facade_create_place ___________________________
+
+facade = <app.services.facade.HBnBFacade object at 0x7ff1675e0c50>
+
+    def test_facade_create_place(facade):
+        user = facade.create_user({
+            "first_name": "Owner",
+            "last_name": "Test",
+            "email": "owner@test.com"
+        })
+        amenity = facade.create_amenity({"name": "Pool"})
+>       place = facade.create_place({
+            "title": "Modern Loft",
+            "description": "Stylish space",
+            "price": 200.0,
+            "latitude": 48.85,
+            "longitude": 2.35,
+            "owner": user["id"],
+            "amenities": [amenity["id"]]
+        })
+
+tests/services/test_facade.py:77: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/services/facade.py:132: in create_place
+    place = Place(**place_data)
+            ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.models.place.Place object at 0x7ff1675e3740>, title = 'Modern Loft'
+price = 200.0, latitude = 48.85, longitude = 2.35
+owner = '79d5c36b-3270-48f8-9b9b-56e2c6e36dba', description = 'Stylish space'
+
+    def __init__(self, title, price, latitude, longitude, owner, description=""):
+        super().__init__()
+    
+        self.title = title
+        self.description = description
+        self.price = price
+        self.latitude = latitude
+        self.longitude = longitude
+        self.owner = owner
+>       self.owner_id = owner.id
+                        ^^^^^^^^
+E       AttributeError: 'str' object has no attribute 'id'
+
+app/models/place.py:17: AttributeError
+__________________________ test_facade_create_review ___________________________
+
+facade = <app.services.facade.HBnBFacade object at 0x7ff1675e2a20>
+user_and_place = (<app.models.user.User object at 0x7ff1675e2600>, <app.models.place.Place object at 0x7ff1675e0ef0>)
+
+    def test_facade_create_review(facade, user_and_place):
+        user, place = user_and_place
+        review = facade.create_review({
+            "text": "Great stay!",
+            "rating": 5,
+>           "user_id": user["id"],
+                       ^^^^^^^^^^
+            "place_id": place["id"]
+        })
+E       TypeError: 'User' object is not subscriptable
+
+tests/services/test_facade.py:97: TypeError
+____________________ test_facade_create_review_invalid_user ____________________
+
+facade = <app.services.facade.HBnBFacade object at 0x7ff1675e0d10>
+user_and_place = (<app.models.user.User object at 0x7ff1675e33e0>, <app.models.place.Place object at 0x7ff1675e1c70>)
+
+    def test_facade_create_review_invalid_user(facade, user_and_place):
+        _, place = user_and_place
+        with pytest.raises(ValueError, match="User not found"):
+            facade.create_review({
+                "text": "Nice", "rating": 4,
+>               "user_id": "invalid", "place_id": place["id"]
+                                                  ^^^^^^^^^^^
+            })
+E           TypeError: 'Place' object is not subscriptable
+
+tests/services/test_facade.py:107: TypeError
+__________________________ test_facade_update_review ___________________________
+
+facade = <app.services.facade.HBnBFacade object at 0x7ff1675c8f50>
+user_and_place = (<app.models.user.User object at 0x7ff1675c9730>, <app.models.place.Place object at 0x7ff1675c98b0>)
+
+    def test_facade_update_review(facade, user_and_place):
+        user, place = user_and_place
+        review = facade.create_review({
+            "text": "Good",
+            "rating": 3,
+>           "user_id": user["id"],
+                       ^^^^^^^^^^
+            "place_id": place["id"]
+        })
+E       TypeError: 'User' object is not subscriptable
+
+tests/services/test_facade.py:115: TypeError
+__________________________ test_facade_delete_review ___________________________
+
+facade = <app.services.facade.HBnBFacade object at 0x7ff1675cbcb0>
+user_and_place = (<app.models.user.User object at 0x7ff1675c9340>, <app.models.place.Place object at 0x7ff1675cb0b0>)
+
+    def test_facade_delete_review(facade, user_and_place):
+        user, place = user_and_place
+        review = facade.create_review({
+            "text": "To be deleted",
+            "rating": 2,
+>           "user_id": user["id"],
+                       ^^^^^^^^^^
+            "place_id": place["id"]
+        })
+E       TypeError: 'User' object is not subscriptable
+
+tests/services/test_facade.py:131: TypeError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/flask_restx/api.py:19
+.venv/lib/python3.12/site-packages/flask_restx/api.py:19
+  /home/costa/projects/trimestre_2/holbertonschool-hbnb/part2/hbnb/.venv/lib/python3.12/site-packages/flask_restx/api.py:19: DeprecationWarning: jsonschema.RefResolver is deprecated as of v4.18.0, in favor of the https://github.com/python-jsonschema/referencing library, which provides more compliant referencing behavior as well as more flexible APIs for customization. A future release will remove RefResolver. Please file a feature request (on referencing) if you are missing an API for the kind of customization you need.
+    from jsonschema import RefResolver
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/api/v1/test_places.py::test_create_place_success - AttributeErro...
+FAILED tests/api/v1/test_places.py::test_get_all_places - AttributeError: 'st...
+FAILED tests/api/v1/test_places.py::test_get_place_by_id - AttributeError: 's...
+FAILED tests/api/v1/test_places.py::test_update_place_success - AttributeErro...
+FAILED tests/api/v1/test_places.py::test_get_place_not_found - ValueError: Pl...
+FAILED tests/api/v1/test_places.py::test_update_place_not_found - ValueError:...
+FAILED tests/api/v1/test_reviews.py::test_create_review_success - assert 400 ...
+FAILED tests/api/v1/test_reviews.py::test_get_review_by_id - KeyError: 'id'
+FAILED tests/api/v1/test_reviews.py::test_put_review_success - KeyError: 'id'
+FAILED tests/api/v1/test_reviews.py::test_delete_review_success - KeyError: 'id'
+FAILED tests/api/v1/test_reviews.py::test_get_reviews_by_place - assert 404 =...
+FAILED tests/api/v1/test_users.py::test_create_user_success - assert 404 == 201
+FAILED tests/api/v1/test_users.py::test_create_user_duplicate_email - assert ...
+FAILED tests/api/v1/test_users.py::test_get_all_users - assert 404 == 200
+FAILED tests/api/v1/test_users.py::test_get_user_by_id - TypeError: 'NoneType...
+FAILED tests/api/v1/test_users.py::test_update_user_success - TypeError: 'Non...
+FAILED tests/models/test_place.py::test_invalid_place_inputs[owner-not_user-TypeError]
+FAILED tests/models/test_review.py::test_review_invalid_place - TypeError: La...
+FAILED tests/services/test_facade.py::test_facade_update_user - AttributeErro...
+FAILED tests/services/test_facade.py::test_facade_create_place - AttributeErr...
+FAILED tests/services/test_facade.py::test_facade_create_review - TypeError: ...
+FAILED tests/services/test_facade.py::test_facade_create_review_invalid_user
+FAILED tests/services/test_facade.py::test_facade_update_review - TypeError: ...
+FAILED tests/services/test_facade.py::test_facade_delete_review - TypeError: ...
+================== 24 failed, 62 passed, 2 warnings in 0.54s ===================
