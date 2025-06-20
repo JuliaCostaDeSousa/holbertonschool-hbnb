@@ -45,7 +45,7 @@ class Review(BaseModel):
     @place.setter
     def place(self, value):
         if not isinstance(value, Place):
-            raise ValueError("place must be a place instance")
+            raise TypeError("place must be a place instance")
         self.__place = value
         self.save()
 

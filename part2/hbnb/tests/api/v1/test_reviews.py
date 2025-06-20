@@ -3,13 +3,7 @@
 import pytest
 from app import create_app
 from flask.testing import FlaskClient
-from app.models.user import User
-from app.models.place import Place
-from app.services.facade import HBnBFacade
 
-facade = HBnBFacade()
-
-# Create a Flask client in testing mode
 
 @pytest.fixture
 def client():
@@ -21,11 +15,24 @@ def client():
 # --- Tests for Amenities API ---
 
 @pytest.fixture
-def setup_user_place(facade):
-    user = User(first_name="John", last_name="Smith", email="john@example.com")
-    place = Place(title="Cabin", description="Nice cabin", price=100.0, latitude=45.0, longitude=5.0, owner=user)
+def setup_user_place():
+    from app.models.user import User
+    from app.models.place import Place
+    from app.services import facade
+
+    user = User(first_name="John", last_name="Doe", email="john@example.com")
+    place = Place(
+        title="Test Place",
+        description="Nice place",
+        price=100.0,
+        latitude=48.85,
+        longitude=2.35,
+        owner=user
+    )
+
     facade.user_repo.add(user)
     facade.place_repo.add(place)
+
     return user, place
 
 def test_create_review_success(client: FlaskClient, setup_user_place):
@@ -37,6 +44,9 @@ def test_create_review_success(client: FlaskClient, setup_user_place):
         "place_id": place.id
     }
     response = client.post('/api/v1/reviews/', json=review_data)
+
+    print("\nRESPONSE JSON:", response.json)
+
     assert response.status_code == 201
     assert "id" in response.json
     assert response.json["text"] == "Amazing stay!"

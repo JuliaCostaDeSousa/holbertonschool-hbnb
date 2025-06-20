@@ -8,6 +8,9 @@ class Place(BaseModel):
     def __init__(self, title, price, latitude, longitude, owner, description=""):
         super().__init__()
 
+        if not isinstance(owner, User):
+            raise TypeError("Owner must be a User")
+
         self.title = title
         self.description = description
         self.price = price
@@ -36,16 +39,13 @@ class Place(BaseModel):
 
         if not isinstance(self.latitude, float):
             raise TypeError("Latitude must be a float")
-        if not (-90.0 <= self.latitude <= 90.0):
-            raise ValueError("Latitude must be between -90.0 and 90.0")
+        if not -90.0 <= self.latitude <= 90.0:
+            raise ValueError("Latitude must be between -90 and 90")
 
         if not isinstance(self.longitude, float):
             raise TypeError("Longitude must be a float")
-        if not (-180.0 <= self.longitude <= 180.0):
-            raise ValueError("Longitude must be between -180.0 and 180.0")
-
-        if not isinstance(self.owner, User):
-            raise TypeError("Owner must be an instance of User")
+        if not -180.0 <= self.longitude <= 180.0:
+            raise ValueError("Longitude must be between -180 and 180")
 
     def add_review(self, review):
         self.reviews.append(review)
@@ -69,6 +69,15 @@ class Place(BaseModel):
             "price": self.price,
             "latitude": self.latitude,
             "longitude": self.longitude,
-            "owner_id": self.owner_id,
-            "amenities": [a.to_dict() for a in self.amenities if hasattr(a, "to_dict")]
+            "owner": {
+                "id": self.owner.id,
+                "first_name": self.owner.first_name,
+                "last_name": self.owner.last_name,
+                "email": self.owner.email
+            } if self.owner else None,
+            "amenities": [
+                {"id": a.id, "name": a.name}
+                for a in self.amenities
+                if hasattr(a, "id") and hasattr(a, "name")
+            ]
         }

@@ -11,3 +11,4 @@ api = Api(api_bp, title='HBnB API', version='1.0', description='A simple HBnB RE
 api.add_namespace(amenities_ns)
 api.add_namespace(reviews_ns)
 api.add_namespace(places_ns)
+api.add_namespace(users_ns)
