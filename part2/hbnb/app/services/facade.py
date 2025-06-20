@@ -128,7 +128,12 @@ class HBnBFacade:
 
     def create_place(self, place_data):
         from app.models.place import Place
+        amenity_ids = place_data.pop("amenities", [])
         place = Place(**place_data)
+        for amenity_id in amenity_ids:
+            amenity = self.amenity_repo.get(amenity_id)
+            if amenity:
+                place.amenities.append(amenity)
         self.place_repo.add(place)
         return place.to_dict()
 
