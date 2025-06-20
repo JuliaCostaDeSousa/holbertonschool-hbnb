@@ -44,13 +44,13 @@ def test_review_rating_out_of_bounds(setup_valid_user_and_place):
 
 def test_review_invalid_place(setup_valid_user_and_place):
     user, _ = setup_valid_user_and_place
-    fake_place = Place(title="Ghost", description="None", price=10, latitude=0, longitude=0, owner=user)
+    fake_place = Place(title="Ghost", description="None", price=10.0, latitude=0, longitude=0, owner=user)
     with pytest.raises(ValueError):
         Review(text="Nope", rating=2, place=fake_place, user=user)
 
 def test_review_invalid_user(setup_valid_user_and_place):
     _, place = setup_valid_user_and_place
-    fake_user = User(first_name="Fake", last_name="User", email="fake@example.com")
+    fake_user = "not_a_user"
     with pytest.raises(ValueError):
         Review(text="Hmmm", rating=3, place=place, user=fake_user)
 
