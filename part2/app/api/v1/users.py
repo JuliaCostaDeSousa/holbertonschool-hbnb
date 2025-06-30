@@ -7,7 +7,8 @@ api = Namespace('users', description='User operations')
 user_model = api.model('User', {
     'first_name': fields.String(required=True, description='First name of the user'),
     'last_name': fields.String(required=True, description='Last name of the user'),
-    'email': fields.String(required=True, description='Email of the user')
+    'email': fields.String(required=True, description='Email of the user'),
+    'password': fields.String(required=True, description='Password of the user')
 })
 
 @api.route('/')
@@ -27,7 +28,10 @@ class UserList(Resource):
 
         try:
             new_user = facade.create_user(user_data)
-            return new_user.to_dict(), 201
+            if new_user.verify_password(user_data['password']):
+                return new_user.to_dict(), 201
+            else:
+                return {'error': 'Password verification failed'}, 500
         except Exception as e:
             return {'error': str(e)}, 400
         
