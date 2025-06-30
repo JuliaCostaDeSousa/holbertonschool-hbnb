@@ -5,9 +5,10 @@ from app.api.v1.amenities import api as amenities_ns
 from app.api.v1.places import api as places_ns
 from app.api.v1.reviews import api as reviews_ns
 
-def create_app():
+def create_app(config_class="config.DevelopmentConfig"):
     app = Flask(__name__)
-    api = Api(app, version='1.0', title='HBnB API', description='HBnB Application API')
+    app.config.from_object(config_class)
+    api = Api(app, version='1.0', title='HBnB Auth and DB', description='HBnB Authentication and Database')
 
     api.add_namespace(users_ns, path='/api/v1/users')
     api.add_namespace(amenities_ns, path='/api/v1/amenities')
