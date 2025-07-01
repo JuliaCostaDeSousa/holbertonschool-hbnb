@@ -67,7 +67,7 @@ class UserResource(Resource):
     @api.response(404, 'User not found')
     @api.response(400, 'Invalid input')
     def put(self, user_id):
-        """Update an existing user's information"""
+        """Update user's information"""
         user = facade.get_user(user_id)
         if not user:
             return {'error': 'User not found'}, 404

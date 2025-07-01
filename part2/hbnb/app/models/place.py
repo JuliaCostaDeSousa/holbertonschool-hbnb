@@ -69,5 +69,5 @@ class Place(BaseModel):
             "latitude": self.latitude,
             "longitude": self.longitude,
             "owner_id": self.owner_id,
-            "amenities": [facade.get_amenity(a).to_dict() for a in self.amenities]
+            "amenities": [facade.get_amenity(a).to_dict() for a in self.amenities] #parcours les ID a = id
         }
