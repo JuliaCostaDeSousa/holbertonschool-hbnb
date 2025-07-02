@@ -8,7 +8,7 @@ from app.models.review import Review
 
 class HBnBFacade:
     def __init__(self):
-        self.user_repo = UserRepository(User)
+        self.user_repo = UserRepository()
         self.amenity_repo = SQLAlchemyRepository(Amenity)
         self.place_repo = SQLAlchemyRepository(Place)
         self.review_repo = SQLAlchemyRepository(Review)
