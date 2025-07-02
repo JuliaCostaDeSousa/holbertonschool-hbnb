@@ -1,6 +1,6 @@
 from .basemodel import BaseModel
 import re
-from app import db, bcrypt
+from app.extensions import db, bcrypt
 import uuid
 from sqlalchemy.orm import validates
 
