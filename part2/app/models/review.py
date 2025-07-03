@@ -1,63 +1,37 @@
 from .basemodel import BaseModel
 from .place import Place
 from .user import User
+from app.extensions import db
+from sqlalchemy.orm import validates
 
 class Review(BaseModel):
-	def __init__(self, text, rating, place, user):
-		super().__init__()
-		self.text = text
-		self.rating = rating
-		self.place = place
-		self.user = user
+    __tablename__ = 'reviews'
 	
-	@property
-	def text(self):
-		return self.__text
-	
-	@text.setter
-	def text(self, value):
-		if not value:
-			raise ValueError("Text cannot be empty")
-		if not isinstance(value, str):
-			raise TypeError("Text must be a string")
-		self.__text = value
+    id = db.Column(db.String(36), primary_key=True, nullable=False, unique=True)
+    text = db.Column(db.String, nullable=False)
+    rating = db.Column(db.Integer, nullable=False)
 
-	@property
-	def rating(self):
-		return self.__rating
 	
-	@rating.setter
-	def rating(self, value):
-		if not isinstance(value, int):
-			raise TypeError("Rating must be an integer")
-		super().is_between('Rating', value, 1, 6)
-		self.__rating = value
+    @validates('text')
+    def validates_text(self, key, value):
+        if not value:
+            raise ValueError("{} cannot be empty".format(key))
+        if not isinstance(value, str):
+            raise TypeError("{} must be a string".format(key))
+        return value.strip()
 
-	@property
-	def place(self):
-		return self.__place
-	
-	@place.setter
-	def place(self, value):
-		if not isinstance(value, Place):
-			raise TypeError("Place must be a place instance")
-		self.__place = value
+    @validates('rating')
+    def validates_rating(self, key, value):
+        if not isinstance(value, int):
+            raise TypeError("{} must be an integer".format(key))
+        super().is_between('Rating', value, 1, 6)
+        return value
 
-	@property
-	def user(self):
-		return self.__user
-	
-	@user.setter
-	def user(self, value):
-		if not isinstance(value, User):
-			raise TypeError("User must be a user instance")
-		self.__user = value
-
-	def to_dict(self):
-		return {
-			'id': self.id,
-			'text': self.text,
-			'rating': self.rating,
-			'place_id': self.place.id,
-			'user_id': self.user.id
-		}
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'text': self.text,
+            'rating': self.rating,
+            'place_id': self.place.id,
+            'user_id': self.user.id
+        }
