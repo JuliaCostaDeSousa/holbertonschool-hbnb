@@ -1,74 +1,55 @@
 from .basemodel import BaseModel
 from .user import User
+from app.extensions import db
+from sqlalchemy.orm import validates
+from sqlalchemy import CheckConstraint
 
 class Place(BaseModel):
-    def __init__(self, title, price, latitude, longitude, owner, description=None):
-        super().__init__()
-        self.title = title
-        self.description = description
-        self.price = price
-        self.latitude = latitude
-        self.longitude = longitude
-        self.owner = owner
-        self.reviews = []  # List to store related reviews
-        self.amenities = []  # List to store related amenities
+    __tablename__ = 'places'
 
-    @property
-    def title(self):
-        return self.__title
-    
-    @title.setter
-    def title(self, value):
+    id = db.Column(db.String(36), primary_key=True, nullable=False, unique=True)
+    title = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String, nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    latitude = db.Column(db.Float, nullable=False)
+    longitude = db.Column(db.Float, nullable=False)
+
+    __table_args__ = (
+        CheckConstraint('price > 0', name='price_positive'),
+        CheckConstraint('latitude > -90 AND latitude < 90', name='latitude_range'),
+        CheckConstraint('longitude > -180 AND longitude < 180', name='longitude_range'),
+    )
+
+    @validates('title')
+    def validates_title(self, key, value):
         if not value:
-            raise ValueError("Title cannot be empty")
+            raise ValueError("{} cannot be empty".format(key))
         if not isinstance(value, str):
-            raise TypeError("Title must be a string")
+            raise TypeError("{} must be a string".format(key))
         super().is_max_length('title', value, 100)
-        self.__title = value
+        return value.strip()
 
-    @property
-    def price(self):
-        return self.__price
-    
-    @price.setter
-    def price(self, value):
-        if not isinstance(value, float) and not isinstance(value, int):
-            raise TypeError("Price must be a float")
-        if value < 0:
-            raise ValueError("Price must be positive.")
-        self.__price = value
+    @validates('price')
+    def validates_price(self, key, value):
+        if not isinstance(value, (int, float)):
+            raise TypeError("{} must be a number".format(key))
+        if value <= 0:
+            raise ValueError("{} must be positive.".format(key))
+        return float(value)
 
-    @property
-    def latitude(self):
-        return self.__latitude
+    @validates('latitude')
+    def validates_latitude(self, key, value):
+        if not isinstance(value, (float, int)):
+            raise TypeError("{} must be a number".format(key))
+        super().is_between("{}".format(key), value, -90.0, 90.0)
+        return float(value)
     
-    @latitude.setter
-    def latitude(self, value):
-        if not isinstance(value, float):
-            raise TypeError("Latitude must be a float")
-        super().is_between("latitude", value, -90, 90)
-        self.__latitude = value
-    
-    @property
-    def longitude(self):
-        return self.__longitude
-    
-    @longitude.setter
-    def longitude(self, value):
-        if not isinstance(value, float):
-            raise TypeError("Longitude must be a float")
-        super().is_between("longitude", value, -180, 180)
-        self.__longitude = value
-
-    @property
-    def owner(self):
-        return self.__owner
-    
-    @owner.setter
-    def owner(self, value):
-        if not isinstance(value, User):
-            raise TypeError("Owner must be a user instance")
-        self.__owner = value
+    @validates('longitude')
+    def validates_longitude(self, key, value):
+        if not isinstance(value, (int, float)):
+            raise TypeError("{} must be a number".format(key))
+        super().is_between("{}".format(key), value, -180, 180)
+        return float(value)
 
     def add_review(self, review):
         """Add a review to the place."""
