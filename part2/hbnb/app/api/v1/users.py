@@ -1,4 +1,6 @@
 from flask_restx import Namespace, Resource, fields
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask import request
 from app.services import facade
 
 api = Namespace('users', description='User operations')
@@ -51,11 +53,12 @@ class UserList(Resource):
     def post(self):
         """Register a new user"""
         user_data = api.payload
+        email = user_data.get('email', '').strip().lower()
 
-        existing_user = facade.get_user_by_email(user_data['email'])
-        if existing_user:
+        if facade.get_user_by_email(email):
             return {'error': 'Email already registered'}, 409
 
+        user_data['email'] = email
         new_user = facade.create_user(user_data)
         return user_to_dict(new_user), 201
 
@@ -82,20 +85,27 @@ class UserResource(Resource):
     @api.response(200, 'User updated successfully')
     @api.response(400, 'Invalid input')
     @api.response(404, 'User not found')
+    @api.response(403, 'Admin privileges required')
     @api.response(409, 'Email already registered')
+    @jwt_required()
     def put(self, user_id):
-        """Update user's information"""
+        """Update user's information - Admin only"""
+        current_user = get_jwt_identity()
+        if not current_user.get('is_admin'):
+            return {'error': 'Admin privileges required'}, 403
+
         user = facade.get_user(user_id)
         if not user:
             return {'error': 'User not found'}, 404
 
         user_data = api.payload
+        email = user_data.get('email', '').strip().lower()
 
-        # If updating email, ensure it's not duplicated
-        existing_user = facade.get_user_by_email(user_data['email'])
+        existing_user = facade.get_user_by_email(email)
         if existing_user and existing_user.id != user.id:
             return {'error': 'Email already registered'}, 409
 
+        user_data['email'] = email
         try:
             updated_user = facade.update_user(user_id, user_data)
         except ValueError as error:

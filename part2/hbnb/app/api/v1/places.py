@@ -1,10 +1,9 @@
 from flask_restx import Namespace, Resource, fields
-from app.services import facade
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from app.services import facade
 
 api = Namespace('places', description='Place operations')
 
-# Define the models for related entities
 amenity_model = api.model('PlaceAmenity', {
     'id': fields.String(description='Amenity ID'),
     'name': fields.String(description='Name of the amenity')
@@ -17,15 +16,13 @@ user_model = api.model('PlaceUser', {
     'email': fields.String(description='Email of the owner')
 })
 
-# Define the place model for input validation and documentation
 place_model = api.model('Place', {
     'title': fields.String(required=True, description='Title of the place'),
     'description': fields.String(description='Description of the place'),
     'price': fields.Float(required=True, description='Price per night'),
     'latitude': fields.Float(required=True, description='Latitude of the place'),
     'longitude': fields.Float(required=True, description='Longitude of the place'),
-    'amenities': fields.List(fields.String, required=True,
-                             description="List of amenities ID's")
+    'amenities': fields.List(fields.String, required=True, description="List of amenity IDs")
 })
 
 
@@ -118,20 +115,23 @@ class PlaceResource(Resource):
             } for amenity in place.amenities]
         }, 200
 
-    @api.expect(place_model)
+    @jwt_required()
+    @api.expect(place_model, validate=True)
     @api.response(200, 'Place updated successfully')
     @api.response(404, 'Place not found')
     @api.response(400, 'Invalid input data')
     @api.response(403, 'Unauthorized action')
-    @jwt_required()
     def put(self, place_id):
-        """Update a place's information (only owner can)"""
+        """Update a place's information (admins or owner)"""
+        current_user = get_jwt_identity()
+        is_admin = current_user.get('is_admin', False)
+        user_id = current_user.get('id')
+
         place = facade.get_place(place_id)
         if not place:
             return {'error': 'Place not found'}, 404
 
-        current_user_id = get_jwt_identity()
-        if place.owner.id != current_user_id:
+        if not is_admin and place.owner.id != user_id:
             return {'error': 'Unauthorized action'}, 403
 
         place_data = api.payload
@@ -153,8 +153,11 @@ class PlaceResource(Resource):
                 'last_name': updated_place.owner.last_name,
                 'email': updated_place.owner.email
             },
-            'amenities': [{
-                'id': amenity.id,
-                'name': amenity.name
-            } for amenity in updated_place.amenities]
+            'amenities': [
+                {
+                    'id': amenity.id,
+                    'name': amenity.name
+                }
+                for amenity in updated_place.amenities
+            ]
         }, 200

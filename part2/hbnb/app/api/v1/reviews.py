@@ -3,7 +3,6 @@ from app.services import facade
 
 api = Namespace('reviews', description='Review operations')
 
-# Define the review model for input validation and documentation
 review_model = api.model('Review', {
     'text': fields.String(required=True, description='Text of the review'),
     'rating': fields.Integer(required=True, description='Rating of the place (1-5)'),
@@ -34,22 +33,17 @@ def review_to_dict(review):
 
 @api.route('/')
 class ReviewList(Resource):
-    @api.expect(review_model)
+    @api.expect(review_model, validate=True)
     @api.response(201, 'Review successfully created')
     @api.response(400, 'Invalid input data')
     def post(self):
-        """Register a new review"""
+        """Create a new review"""
         review_data = api.payload
 
-        if not review_data or 'text' not in review_data:
-            return {'error': '"text" is required'}, 400
-        if 'rating' not in review_data:
-            return {'error': '"rating" is required'}, 400
-        if 'user_id' not in review_data:
-            return {'error': '"user_id" is required'}, 400
-        if 'place_id' not in review_data:
-            return {'error': '"place_id" is required'}, 400
-        
+        for field in ['text', 'rating', 'user_id', 'place_id']:
+            if field not in review_data:
+                return {'error': f'"{field}" is required'}, 400
+
         if not isinstance(review_data['text'], str):
             return {'error': '"text" must be a string'}, 400
         if not isinstance(review_data['rating'], int):
@@ -58,57 +52,47 @@ class ReviewList(Resource):
             return {'error': '"user_id" must be a string'}, 400
         if not isinstance(review_data['place_id'], str):
             return {'error': '"place_id" must be a string'}, 400
-        
+
         if not (1 <= review_data['rating'] <= 5):
             return {'error': '"rating" must be between 1 and 5'}, 400
 
         try:
             new_review = facade.create_review(review_data)
             return review_to_dict(new_review), 201
-
         except ValueError as e:
             return {'error': str(e)}, 400
 
     @api.response(200, 'List of reviews retrieved successfully')
     def get(self):
-        """Retrieve a list of all reviews"""
+        """Get all reviews"""
         reviews = facade.get_all_reviews()
         return [review_to_dict(r) for r in reviews], 200
 
 
 @api.route('/<review_id>')
 class ReviewResource(Resource):
-    @api.response(200, 'Review details retrieved successfully')
+    @api.response(200, 'Review retrieved successfully')
     @api.response(404, 'Review not found')
     def get(self, review_id):
-        """Get review details by ID"""
+        """Get a review by its ID"""
         try:
             review = facade.get_review(review_id)
             return review_to_dict(review), 200
         except ValueError as e:
             return {'error': str(e)}, 404
 
-    @api.expect(review_model)
+    @api.expect(review_model, validate=True)
     @api.response(200, 'Review updated successfully')
     @api.response(404, 'Review not found')
     @api.response(400, 'Invalid input data')
     def put(self, review_id):
-        """Update review"""
+        """Update an existing review"""
         review_data = api.payload
 
         try:
-            existing_review = facade.get_review(review_id)
+            _ = facade.get_review(review_id)
         except ValueError as e:
             return {'error': str(e)}, 404
-
-        if 'text' not in review_data:
-            return {'error': '"text" is required'}, 400
-        if 'rating' not in review_data:
-            return {'error': '"rating" is required'}, 400
-        if 'user_id' not in review_data:
-            return {'error': '"user_id" is required'}, 400
-        if 'place_id' not in review_data:
-            return {'error': '"place_id" is required'}, 400
 
         if not isinstance(review_data['text'], str):
             return {'error': '"text" must be a string'}, 400
@@ -131,10 +115,10 @@ class ReviewResource(Resource):
     @api.response(200, 'Review deleted successfully')
     @api.response(404, 'Review not found')
     def delete(self, review_id):
-        """Delete review"""
+        """Delete a review by ID"""
         try:
             facade.delete_review(review_id)
-            return {"message": "Review deleted successfully"}, 200
+            return {'message': 'Review deleted successfully'}, 200
         except ValueError as e:
             return {'error': str(e)}, 404
 
