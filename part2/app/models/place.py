@@ -76,7 +76,7 @@ class Place(BaseModel):
             'price': self.price,
             'latitude': self.latitude,
             'longitude': self.longitude,
-            'owner_id': self.owner.id
+            'user_id': self.user.id
         }
     
     def to_dict_list(self):
@@ -87,7 +87,7 @@ class Place(BaseModel):
             'price': self.price,
             'latitude': self.latitude,
             'longitude': self.longitude,
-            'owner': self.owner.to_dict(),
+            'user': self.user.to_dict(),
             'amenities': self.amenities,
             'reviews': self.reviews
         }
