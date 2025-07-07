@@ -23,8 +23,8 @@ place_model = api.model('Place', {
     'price': fields.Float(required=True, description='Price per night'),
     'latitude': fields.Float(required=True, description='Latitude of the place'),
     'longitude': fields.Float(required=True, description='Longitude of the place'),
-    'owner_id': fields.String(required=True, description='ID of the owner'),
-    'owner': fields.Nested(user_model, description='Owner details'),
+    'user_id': fields.String(required=True, description='ID of the owner'),
+    'user': fields.Nested(user_model, description='Owner details'),
     'amenities': fields.List(fields.String, required=True, description="List of amenities ID's")
 })
 
@@ -36,12 +36,12 @@ class PlaceList(Resource):
     def post(self):
         """Register a new place"""
         place_data = api.payload
-        owner = place_data.get('owner_id', None)
+        user_id = place_data.get('user_id', None)
 
-        if owner is None or len(owner) == 0:
+        if not user_id:
             return {'error': 'Invalid input data.'}, 400
 
-        user = facade.user_repo.get_by_attribute('id', owner)
+        user = facade.user_repo.get_by_attribute('id', user_id)
         if not user:
             return {'error': 'Invalid input data'}, 400
         try:
