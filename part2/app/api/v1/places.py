@@ -18,6 +18,7 @@ user_model = api.model('PlaceUser', {
 
 # Define the place model for input validation and documentation
 place_model = api.model('Place', {
+    'id': fields.String(description='Place ID'),
     'title': fields.String(required=True, description='Title of the place'),
     'description': fields.String(description='Description of the place'),
     'price': fields.Float(required=True, description='Price per night'),
@@ -91,19 +92,18 @@ class PlaceAmenities(Resource):
     @api.response(400, 'Invalid input data')
     def post(self, place_id):
         amenities_data = api.payload
-        if not amenities_data or len(amenities_data) == 0:
+        if not amenities_data or 'id' not in amenities_data:
             return {'error': 'Invalid input data'}, 400
         
         place = facade.get_place(place_id)
         if not place:
             return {'error': 'Place not found'}, 404
         
-        for amenity in amenities_data:
-            a = facade.get_amenity(amenity['id'])
-            if not a:
-                return {'error': 'Invalid input data'}, 400
-        
-        for amenity in amenities_data:
+        amenity = facade.get_amenity(amenities_data['id'])
+        if not amenity:
+            return {'error': 'Amenity not found'}, 400
+
+        if amenity not in place.amenities:
             place.add_amenity(amenity)
         return {'message': 'Amenities added successfully'}, 200
 
