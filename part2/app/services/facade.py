@@ -52,11 +52,11 @@ class HBnBFacade:
 
     # PLACE
     def create_place(self, place_data):
-        user = self.user_repo.get_by_attribute('id', place_data['owner_id'])
+        user = self.user_repo.get_by_attribute('id', place_data['user_id'])
         if not user:
             raise KeyError('Invalid input data')
-        del place_data['owner_id']
-        place_data['owner'] = user
+        del place_data['user_id']
+        place_data['user'] = user
         amenities = place_data.pop('amenities', None)
         if amenities:
             for a in amenities:
