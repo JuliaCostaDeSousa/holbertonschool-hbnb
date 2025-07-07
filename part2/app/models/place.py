@@ -7,7 +7,6 @@ from sqlalchemy import CheckConstraint
 class Place(BaseModel):
     __tablename__ = 'places'
 
-    id = db.Column(db.String(36), primary_key=True, nullable=False, unique=True)
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String, nullable=False)
     price = db.Column(db.Float, nullable=False)
