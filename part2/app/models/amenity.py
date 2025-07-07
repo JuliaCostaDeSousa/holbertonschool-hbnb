@@ -6,7 +6,6 @@ from sqlalchemy.orm import validates
 class Amenity(BaseModel):
     __tablename__ = 'amenities'
 
-    id = db.Column(db.String(36), primary_key=True, nullable=False, unique=True)
     name = db.Column(db.String(50), nullable=False)
 
     @validates('name')

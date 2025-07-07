@@ -7,11 +7,9 @@ from sqlalchemy.orm import validates
 class Review(BaseModel):
     __tablename__ = 'reviews'
 	
-    id = db.Column(db.String(36), primary_key=True, nullable=False, unique=True)
     text = db.Column(db.String, nullable=False)
     rating = db.Column(db.Integer, nullable=False)
 
-	
     @validates('text')
     def validates_text(self, key, value):
         if not value:
