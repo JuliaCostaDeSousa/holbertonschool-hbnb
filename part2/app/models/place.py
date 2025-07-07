@@ -1,8 +1,9 @@
 from .basemodel import BaseModel
-from .user import User
 from app.extensions import db
 from sqlalchemy.orm import validates
 from sqlalchemy import CheckConstraint
+from .associations import place_amenity
+
 
 class Place(BaseModel):
     __tablename__ = 'places'
@@ -12,6 +13,11 @@ class Place(BaseModel):
     price = db.Column(db.Float, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
+    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
+
+    user = db.relationship('User', backref=db.backref('places'), lazy=True)
+    amenities = db.relationship('Amenity', secondary=place_amenity, lazy='subquery',
+                           backref=db.backref('places', lazy=True))
 
     __table_args__ = (
         CheckConstraint('price > 0', name='price_positive'),
