@@ -43,10 +43,12 @@ class SQLAlchemyRepository(Repository):
 
     def update(self, obj_id, data):
         obj = self.get(obj_id)
+        print(f"Updating {self.model.__name__} id={obj_id} with data={data}")
         if obj:
             for key, value in data.items():
                 setattr(obj, key, value)
             db.session.commit()
+            return obj
 
     def delete(self, obj_id):
         obj = self.get(obj_id)

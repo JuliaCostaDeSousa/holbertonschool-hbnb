@@ -27,22 +27,24 @@ class Place(BaseModel):
 
     @validates('title')
     def validates_title(self, key, value):
-        if not value:
-            raise ValueError("{} cannot be empty".format(key))
         if not isinstance(value, str):
             raise TypeError("{} must be a string".format(key))
+        value = value.strip()
+        if value == "":
+            raise ValueError("{} must not be empty".format(key))
         super().is_max_length('title', value, 100)
-        return value.strip()
+        return value
     
     @validates('description')
     def validates_description(self, key, value):
-        if value is not None:
-            if not isinstance(value, str):
-                raise TypeError("{} must be a string".format(key))
-            if value.strip() == "":
-                raise ValueError("{} cannot be empty".format(key))
-            return value.strip()
-        return None
+        if value is None:
+            return None
+        if not isinstance(value, str):
+            raise TypeError("{} must be a string".format(key))
+        value = value.strip()
+        if value == "":
+            raise ValueError("{} must not be empty".format(key))
+        return value
 
     @validates('price')
     def validates_price(self, key, value):
@@ -71,7 +73,7 @@ class Place(BaseModel):
         self.reviews.append(review)
     
     def delete_review(self, review):
-        """Add an amenity to the place."""
+        """Delete a review to the place."""
         self.reviews.remove(review)
 
     def add_amenity(self, amenity):
@@ -90,7 +92,7 @@ class Place(BaseModel):
             'price': self.price,
             'latitude': self.latitude,
             'longitude': self.longitude,
-            'owner_id': self.owner.id
+            'owner_id': self.owner_id
         }
     
     def to_dict_list(self):

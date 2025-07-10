@@ -1,6 +1,12 @@
 from app.models.place import Place
 from app.persistence.repository import SQLAlchemyRepository
+from app.extensions import db
+from app.models.review import Review
 
 class PlaceRepository(SQLAlchemyRepository):
     def __init__(self):
         super().__init__(Place)
+
+    def already_reviewed_place(self,user_id, place_id):
+        review = db.session.query(Review).filter_by(user_id=user_id, place_id=place_id).first()
+        return review is not None

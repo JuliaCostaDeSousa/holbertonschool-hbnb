@@ -96,5 +96,6 @@ def test_password_hashing_and_verification(session):
     session.add(user)
     session.commit()
 
-    assert user.password != "mypassword"
+    assert user._password != "mypassword"
     assert user.verify_password("mypassword") is True
+    assert user.verify_password("wrongpass") is False

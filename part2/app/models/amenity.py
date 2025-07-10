@@ -11,11 +11,12 @@ class Amenity(BaseModel):
     @validates('name')
     def validates_name(self, key, value):
         if not isinstance(value, str):
-            raise TypeError("Name must be a string")
-        if not value:
-            raise ValueError("Name cannot be empty")
+            raise TypeError("{} must be a string".format(key))
+        value = value.strip()
+        if value == "":
+            raise ValueError("{} must not be empty".format(key))
         super().is_max_length('Name', value, 50)
-        return value.strip()
+        return value
 
     def update(self, data):
         return super().update(data)

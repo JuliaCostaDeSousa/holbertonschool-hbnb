@@ -74,7 +74,7 @@ def test_valid_review_creation(session, review_data):
     assert review.place is not None
 
 @pytest.mark.parametrize("value,error", [
-    (None, ValueError),
+    (None, TypeError),
     (123, TypeError),
 ])
 def test_invalid_text(session, user, place, value, error):

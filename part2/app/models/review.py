@@ -16,17 +16,19 @@ class Review(BaseModel):
 
     @validates('text')
     def validates_text(self, key, value):
-        if not value:
-            raise ValueError("{} cannot be empty".format(key))
         if not isinstance(value, str):
             raise TypeError("{} must be a string".format(key))
-        return value.strip()
+        value = value.strip()
+        if value == "":
+            raise ValueError("{} must not be empty".format(key))
+        return value
 
     @validates('rating')
     def validates_rating(self, key, value):
         if not isinstance(value, int):
             raise TypeError("{} must be an integer".format(key))
-        super().is_between('Rating', value, 1, 6)
+        if not (1 <= value <= 5):
+            raise ValueError("{} must be between 1 and 5".format(key))
         return value
 
     def to_dict(self):

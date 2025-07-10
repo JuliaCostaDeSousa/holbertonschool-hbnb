@@ -1,74 +1,60 @@
 from flask_restx import Namespace, Resource, fields
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask import request
 from app.services import facade
-
 
 api = Namespace('amenities', description='Amenity operations')
 
-# Define the amenity model for input validation and documentation
 amenity_model = api.model('Amenity', {
     'name': fields.String(required=True, description='Name of the amenity')
 })
 
 @api.route('/')
 class AmenityList(Resource):
-    @api.expect(amenity_model)
-    @api.response(201, 'Amenity successfully created')
-    @api.response(400, 'Invalid input data')
-    def post(self):
-        """Register a new amenity"""
-        amenity_data = api.payload
-        
-        existing_amenity = facade.amenity_repo.get_by_attribute('name', amenity_data.get('name'))
-        if existing_amenity:
-            return {'error': 'Invalid input data'}, 400
-        try:
-            new_amenity = facade.create_amenity(amenity_data)
-            return new_amenity.to_dict(), 201
-        except Exception as e:
-            return {'error': str(e)}, 400
-
-    @api.response(200, 'List of amenities retrieved successfully')
     def get(self):
-        """Retrieve a list of all amenities"""
-        amenities = facade.get_all_amenities()
-        return [amenity.to_dict() for amenity in amenities], 200
+        """List all amenities"""
+        return facade.get_all_amenities(), 200
+    
+    @jwt_required()
+    @api.expect(amenity_model)
+    @api.doc(security='Bearer Auth')
+    def post(self):
+        """Create a new amenity"""
+        current_user = get_jwt_identity()
+        if not current_user['is_admin']:
+            return {'error': 'Admin access required'}, 403
+        amenity = facade.create_amenity(api.payload)
+        return amenity.to_dict(), 201
 
-
-@api.route('/<amenity_id>')
+@api.route('/<string:amenity_id>')
+@api.param('amenity_id', 'The amenity identifier')
 class AmenityResource(Resource):
-    @api.response(200, 'Amenity details retrieved successfully')
-    @api.response(404, 'Amenity not found')
     def get(self, amenity_id):
-        """Get amenity details by ID"""
+        """Get an amenity by ID"""
         amenity = facade.get_amenity(amenity_id)
         if not amenity:
             return {'error': 'Amenity not found'}, 404
         return amenity.to_dict(), 200
-
+    
+    @jwt_required()
     @api.expect(amenity_model)
-    @api.response(200, 'Amenity updated successfully')
-    @api.response(404, 'Amenity not found')
-    @api.response(400, 'Invalid input data')
+    @api.doc(security='Bearer Auth')
     def put(self, amenity_id):
-        amenity_data = api.payload
-        amenity = facade.get_amenity(amenity_id)
-        if not amenity:
+        """Update an amenity"""
+        current_user = get_jwt_identity()
+        if not current_user['is_admin']:
+            return {'error': 'Admin access required'}, 403
+        updated = facade.update_amenity(amenity_id, api.payload)
+        if not updated:
             return {'error': 'Amenity not found'}, 404
-        try:
-            facade.update_amenity(amenity_id, amenity_data)
-            return {"message": "Amenity updated successfully"}, 200
-        except Exception as e:
-            return {'error': str(e)}, 400
+        return updated.to_dict(), 200
 
-    @api.response(200, 'Amenity deleted successfully')
-    @api.response(404, 'Amenity not found')
+    @jwt_required()
+    @api.doc(security='Bearer Auth')
     def delete(self, amenity_id):
-        """Delete an amenity by ID"""
-        amenity = facade.get_amenity(amenity_id)
-        if not amenity:
-            return {'error': 'Amenity not found'}, 404
-        try:
-            facade.delete_amenity(amenity_id)
-            return {'message': 'Amenity deleted successfully'}, 200
-        except Exception as e:
-            return {'error': str(e)}, 400
+        """Delete an amenity"""
+        current_user = get_jwt_identity()
+        if not current_user['is_admin']:
+            return {'error': 'Admin access required'}, 403
+        facade.delete_amenity(amenity_id)
+        return {'message': 'Amenity deleted'}, 204
