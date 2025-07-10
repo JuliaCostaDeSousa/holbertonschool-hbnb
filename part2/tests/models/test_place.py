@@ -5,6 +5,7 @@ from app.models.user import User
 from app.models.place import Place
 from app.models.review import Review
 from app.models.amenity import Amenity
+from sqlalchemy.orm import scoped_session, sessionmaker
 
 
 @pytest.fixture(scope='session')
@@ -31,7 +32,6 @@ def session(db):
     connection = db.engine.connect()
     transaction = connection.begin()
 
-    from sqlalchemy.orm import scoped_session, sessionmaker
     session_factory = sessionmaker(bind=connection)
     session = scoped_session(session_factory)
     db.session = session
