@@ -18,8 +18,9 @@ class HBnBFacade:
 
     # USER
     def create_user(self, user_data):
+        password = user_data.pop("password")
         user = User(**user_data)
-        user.hash_password(user_data['password'])
+        user.hash_password(password)
         self.user_repo.add(user)
         return user
     
@@ -33,8 +34,16 @@ class HBnBFacade:
         return self.user_repo.get_by_attribute('email', email)
     
     def update_user(self, user_id, user_data):
-        self.user_repo.update(user_id, user_data)
-    
+        user = self.user_repo.get(user_id)
+        if not user:
+            return None
+        if "password" in user_data:
+            user.hash_password(user_data.pop("password"))
+        for key, value in user_data.items():
+            setattr(user, key, value)
+        db.session.commit()
+        return user
+
     # AMENITY
     def create_amenity(self, amenity_data):
         amenity = Amenity(**amenity_data)
