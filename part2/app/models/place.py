@@ -9,13 +9,13 @@ class Place(BaseModel):
     __tablename__ = 'places'
 
     title = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=True)
     price = db.Column(db.Float, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
-    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
+    owner_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
 
-    user = db.relationship('User', backref=db.backref('places'), lazy=True)
+    owner = db.relationship('User', backref=db.backref('places'), lazy=True)
     amenities = db.relationship('Amenity', secondary=place_amenity, lazy='subquery',
                            backref=db.backref('places', lazy=True))
 
@@ -33,6 +33,16 @@ class Place(BaseModel):
             raise TypeError("{} must be a string".format(key))
         super().is_max_length('title', value, 100)
         return value.strip()
+    
+    @validates('description')
+    def validates_description(self, key, value):
+        if value is not None:
+            if not isinstance(value, str):
+                raise TypeError("{} must be a string".format(key))
+            if value.strip() == "":
+                raise ValueError("{} cannot be empty".format(key))
+            return value.strip()
+        return None
 
     @validates('price')
     def validates_price(self, key, value):
@@ -67,6 +77,10 @@ class Place(BaseModel):
     def add_amenity(self, amenity):
         """Add an amenity to the place."""
         self.amenities.append(amenity)
+    
+    def delete_amenity(self, amenity):
+        """Delete an amenity to the place."""
+        self.amenities.remove(amenity)
 
     def to_dict(self):
         return {
@@ -76,7 +90,7 @@ class Place(BaseModel):
             'price': self.price,
             'latitude': self.latitude,
             'longitude': self.longitude,
-            'user_id': self.user.id
+            'owner_id': self.owner.id
         }
     
     def to_dict_list(self):
@@ -87,7 +101,7 @@ class Place(BaseModel):
             'price': self.price,
             'latitude': self.latitude,
             'longitude': self.longitude,
-            'user': self.user.to_dict(),
+            'owner': self.owner.to_dict(),
             'amenities': [amenity.to_dict() for amenity in self.amenities],
             'reviews': [review.to_dict() for review in self.reviews]
         }
