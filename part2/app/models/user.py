@@ -2,6 +2,7 @@ from .basemodel import BaseModel
 import re
 from app.extensions import db, bcrypt
 from sqlalchemy.orm import validates
+from app.extensions import db
 
 class User(BaseModel):
     __tablename__ = 'users'
@@ -40,15 +41,15 @@ class User(BaseModel):
         return value
 
     def add_place(self, place):
-        """Add an amenity to the place."""
+        """Add a place."""
         self.places.append(place)
 
     def add_review(self, review):
-        """Add an amenity to the place."""
+        """Add an review to the place."""
         self.reviews.append(review)
 
     def delete_review(self, review):
-        """Add an amenity to the place."""
+        """Delete a review to the place."""
         self.reviews.remove(review)
 
     def to_dict(self):
