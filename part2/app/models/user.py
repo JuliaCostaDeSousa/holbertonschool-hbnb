@@ -2,7 +2,6 @@ from .basemodel import BaseModel
 import re
 from app.extensions import db, bcrypt
 from sqlalchemy.orm import validates
-from app.extensions import db
 
 class User(BaseModel):
     __tablename__ = 'users'
@@ -13,31 +12,36 @@ class User(BaseModel):
     _password = db.Column("password", db.String(128), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
 
+    def __init__(self, *args, password=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if password:
+            self.hash_password(password)
+
     @validates('first_name')
     def validates_first_name(self, key, value):
         if not isinstance(value, str):
-            raise TypeError("{} must be a string".format(key))
+            raise TypeError(f"{key} must be a string")
         value = value.strip()
-        if value == "":
-            raise ValueError("{} must not be empty".format(key))
+        if not value:
+            raise ValueError(f"{key} must not be empty")
         return value
 
     @validates('last_name')
     def validates_last_name(self, key, value):
         if not isinstance(value, str):
-            raise TypeError("{} must be a string".format(key))
+            raise TypeError(f"{key} must be a string")
         value = value.strip()
-        if value == "":
-            raise ValueError("{} must not be empty".format(key))
+        if not value:
+            raise ValueError(f"{key} must not be empty")
         return value
 
     @validates('email')
     def validates_email(self, key, value):
         if not isinstance(value, str):
-            raise TypeError("{} must be a string".format(key))
+            raise TypeError(f"{key} must be a string")
         value = value.strip()
-        if value == "":
-            raise ValueError("{} must not be empty".format(key))
+        if not value:
+            raise ValueError(f"{key} must not be empty")
         if not re.match(r"[^@]+@[^@]+\.[^@]+", value):
             raise ValueError("Invalid email format")
         return value
@@ -45,29 +49,27 @@ class User(BaseModel):
     @validates('is_admin')
     def validates_is_admin(self, key, value):
         if not isinstance(value, bool):
-            raise TypeError("{} must be a boolean".format(key))
+            raise TypeError(f"{key} must be a boolean")
         return value
 
-    @validates('password')
-    def validate_password(self, key, value):
-        if not isinstance(value, str):
+    def hash_password(self, password):
+        if not isinstance(password, str):
             raise TypeError("Password must be a string")
-        value = value.strip()
-        if value == "":
-            raise ValueError("{} must not be empty".format(key))
-        self.hash_password(value)
-        return self._password
-    
+        password = password.strip()
+        if not password:
+            raise ValueError("Password must not be empty")
+        self._password = bcrypt.generate_password_hash(password).decode('utf-8')
+
+    def verify_password(self, password):
+        return bcrypt.check_password_hash(self._password, password)
+
     def add_place(self, place):
-        """Add a place."""
         self.places.append(place)
 
     def add_review(self, review):
-        """Add an review to the place."""
         self.reviews.append(review)
 
     def delete_review(self, review):
-        """Delete a review to the place."""
         self.reviews.remove(review)
 
     def to_dict(self):
@@ -77,11 +79,3 @@ class User(BaseModel):
             'last_name': self.last_name,
             'email': self.email
         }
-
-    def hash_password(self, password):
-        """Hashes the password before storing it."""
-        self._password = bcrypt.generate_password_hash(password).decode('utf-8')
-
-    def verify_password(self, password):
-        """Verifies if the provided password matches the hashed password."""
-        return bcrypt.check_password_hash(self._password, password)

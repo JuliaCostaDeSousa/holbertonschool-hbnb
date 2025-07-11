@@ -18,7 +18,6 @@ def app():
         yield app
         _db.drop_all()
 
-
 @pytest.fixture(scope='function')
 def db(app):
     yield _db
@@ -72,7 +71,7 @@ def test_update_amenity(session):
     amenity.update({"name": "Fast Wi-Fi"})
     session.commit()
 
-    updated = session.query(Amenity).get(amenity.id)
+    updated = session.get(Amenity, amenity.id)
     assert updated.name == "Fast Wi-Fi"
 
 def test_delete_amenity(session):
@@ -83,5 +82,5 @@ def test_delete_amenity(session):
     session.delete(amenity)
     session.commit()
 
-    deleted = session.query(Amenity).get(amenity.id)
+    deleted = session.get(Amenity, amenity.id)
     assert deleted is None

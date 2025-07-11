@@ -45,7 +45,7 @@ def test_user(db):
         first_name="Test",
         last_name="User",
         email="test@example.com",
-        password="hashedpassword",  # Remplace si hash requis
+        password="hashedpassword",
         is_admin=False
     )
     db.session.add(user)
