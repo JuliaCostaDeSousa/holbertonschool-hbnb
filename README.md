@@ -1,33 +1,42 @@
 # ___HBnB Project___
 ## ___Project Structure___
 ```
-hbnb/
+.
 ├── app/
 │   ├── __init__.py
 │   ├── api/
 │   │   ├── __init__.py
-│   │   ├── v1/
+│   │   └── v1/
 │   │       ├── __init__.py
 │   │       ├── users.py
 │   │       ├── places.py
 │   │       ├── reviews.py
-│   │       ├── amenities.py
+│   │       └── amenities.py
 │   ├── models/
 │   │   ├── __init__.py
+│   │   ├── base_model.py
 │   │   ├── user.py
 │   │   ├── place.py
 │   │   ├── review.py
 │   │   ├── amenity.py
+│   │   └── engine/
+│   │       ├── __init__.py
+│   │       ├── file_storage.py
+│   │       └── db_storage.py
 │   ├── services/
 │   │   ├── __init__.py
 │   │   ├── facade.py
-│   ├── persistence/
+│   │   ├── user_service.py        
+│   │   └── place_service.py         
+│   └── persistence/
 │       ├── __init__.py
 │       ├── repository.py
+│       └── user_repository.py       
 ├── run.py
 ├── config.py
 ├── requirements.txt
-├── README.md
+└── README.md
+
 ```
 ## ___Installing Dependencies___
 To install the required packages, run the following command in your terminal:
