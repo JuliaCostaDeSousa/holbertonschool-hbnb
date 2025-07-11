@@ -53,6 +53,23 @@ To install the required packages, run the following command in your terminal:
 ```bash
 pip install -r requirements.txt
 ```
+## ___Entity Relationship Diagram___
+![Diagram](./ER_Diagram.png)
+This diagram illustrates the core entities of the HBnB platform and the relationships between them. It defines the logical structure of the database and shows how users, places, reviews, amenities, and other components interact.
+
+**User**: Represents individuals using the platform, either as guests or administrators.
+
+**Place**: Represents properties listed on the platform that can be reviewed or booked.
+
+**Review**: Stores feedback and ratings provided by users for specific places.
+
+**Amenity**: Lists the features or services available in each place (e.g., Wi-Fi, Pool, Parking).
+
+**Place_Amenity**: A join table to handle the many-to-many relationship between Places and Amenities.
+
+**Reservation**: Represents a potential extension to track which user booked which place and when.
+
+This diagram provides a structural overview that supports the design, implementation, and maintenance of both the business logic and persistence layers of the project.
 ## ___Business Logic Layer___
 The business logic layer is responsible for enforcing the business rules that govern the platform's operation. It is independent of the API (Flask) and database layers, allowing for greater modularity, testability, and code clarity.
 ### ___Entities and their responsibilities___
