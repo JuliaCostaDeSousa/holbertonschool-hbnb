@@ -1,5 +1,5 @@
 from flask_restx import Namespace, Resource, fields
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from flask import request
 from app.services import facade
 
@@ -16,8 +16,7 @@ user_model = api.model('User', {
 
 @api.route('/')
 class UserList(Resource):
-    @jwt_required()
-    @api.doc(security='Bearer Auth')
+    @api.response(200, 'List of users retrieved successfully')
     def get(self):
         """List all users (admin only)"""
         current_user = get_jwt_identity()
@@ -27,64 +26,78 @@ class UserList(Resource):
         return [user.to_dict() for user in users]
     
     @api.expect(user_model)
+    @api.response(201, 'User created with success')
+    @api.response(409, 'Email already registered')
+    @api.response(400, 'Input data invalid')
     def post(self):
         """Create a new user (public route)"""
         data = api.payload
-        required_fields = ['first_name', 'last_name', 'email', 'password']
-        for field in required_fields:
-            if field not in data or not isinstance(data[field], str) or not data[field].strip():
-                return {'error': "Field '{}' is required and cannot be empty.".format(field)}, 400
+
+        data_is_admin = data.get('is_admin', None)
+        if data_is_admin:
+            current_user = get_jwt()
+            print(current_user)
+            if current_user == {} or current_user['is_admin'] is False:
+                return {'error': 'Admin privileges required'}, 403
 
         if facade.get_user_by_email(data['email']):
             return {'error': 'Email already registered'}, 400
 
-        # (Facultatif) Bloquer la création d'admin manuellement
-        data['is_admin'] = False
+        try:
+            user = facade.create_user(data)
+            return user.to_dict(), 201
+        except Exception as error:
+            return {'error': str(error)}, 400            
 
-        user = facade.create_user(data)
-        return user.to_dict(), 201
-
-@api.route('/<string:user_id>')
-@api.param('user_id', 'The user identifier')
+@api.route('/<user_id>')
 class UserResource(Resource):
-    @jwt_required()
-    @api.doc(security='Bearer Auth')
+    @api.response(200, 'User details retrieved successfully')
+    @api.response(404, 'User not found')
     def get(self, user_id):
         """Get user details"""
-        current_user = get_jwt_identity()
-        if user_id != current_user['id'] and not current_user['is_admin']:
-            return {'error': 'Forbidden'}, 403
         user = facade.get_user(user_id)
         if not user:
             return {'error': 'User not found'}, 404
-        return user.to_dict()
+        return user.to_dict(), 200
 
     @jwt_required()
     @api.expect(user_model)
-    @api.doc(security='Bearer Auth')
+    @api.response(200, 'User updated successfully')
+    @api.response(404, 'User not found')
+    @api.response(400, 'You cannot modify email or password.')
+    @api.response(403, 'Unauthorized action')       
     def put(self, user_id):
         """Update user data"""
-        current_user = get_jwt_identity()
-        data = api.payload
+        try:
+            current_user = get_jwt_identity()
+            data = api.payload
 
-        if user_id != current_user['id'] and not current_user['is_admin']:
-            return {'error': 'Forbidden'}, 403
-        required_fields = ['first_name', 'last_name', 'email']
-        for field in required_fields:
-            if field not in data or not isinstance(data[field], str) or not data[field].strip():
-                return {'error': "Field '{}' is required and cannot be empty.".format(field)}, 400
-        if 'password' in data and (not isinstance(data['password'], str) or not data['password'].strip()):
-            return {'error': "Password cannot be empty if provided."}, 400
-        
-        updated_user = facade.update_user(user_id, data)
-        return updated_user.to_dict()
+            if user_id != current_user['id'] and not current_user['is_admin']:
+                return {'error': 'Unauthorized action'}, 403
+            if ('email' in data or 'password' in data) and current_user['is_admin'] is False:
+                return {'error': 'You cannot modify email or password'}, 400
+            
+            user = facade.get_user(user_id)
+            if not user:
+                return {'error': 'User not found'}, 404
+            
+            updated_user = facade.update_user(user_id, data)
+            return updated_user.to_dict()
+        except Exception as e:
+            return {'error': str(e)}, 500
 
     @jwt_required()
     @api.doc(security='Bearer Auth')
     def delete(self, user_id):
         """Delete user (self or admin only)"""
-        current_user = get_jwt_identity()
-        if user_id != current_user['id'] and not current_user['is_admin']:
-            return {'error': 'Forbidden'}, 403
-        facade.delete_user(user_id)
-        return {'message': 'User deleted'}, 204
+        try:
+            current_user = get_jwt_identity()
+            if user_id != current_user['id'] and not current_user['is_admin']:
+                return {'error': 'Unauthorized action'}, 403
+            user = facade.get_user(user_id)
+            if not user:
+                return {'error': 'User not found'}, 404
+            facade.delete_user(user_id)
+            return {'message': 'User deleted'}, 204
+        except Exception as e:
+            return {'error': str(e)}, 500

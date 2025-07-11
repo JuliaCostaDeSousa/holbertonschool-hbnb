@@ -1,5 +1,5 @@
 from flask_restx import Namespace, Resource, fields
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from app.services import facade
 
 
@@ -41,7 +41,9 @@ class PlaceList(Resource):
 
     @jwt_required()
     @api.expect(place_model)
-    @api.doc(security='Bearer Auth')
+    @api.response(201, "Place successfully created")
+    @api.response(400, "Bad request")
+    @api.response(404, "User or amenity not found")
     def post(self):
         """Create a new place (auth required)"""
         current_user = get_jwt_identity()
@@ -49,13 +51,17 @@ class PlaceList(Resource):
         try:
             new_place = facade.create_place(data)
             return new_place.to_dict(), 201
-        except ValueError as e:
-            return {'error': str(e)}, 400
+        except PermissionError as error:
+            return {"error": str(error)}, 403
+        except KeyError as error:
+            return {"error": str(error)}, 404
+        except ValueError as error:
+            return {"error": str(error)}, 400
 
-@api.route('/<string:place_id>')
-@api.param('place_id', 'The place identifier')
+@api.route("/<place_id>")
 class PlaceResource(Resource):
-    @api.doc('get_place')
+    @api.response(200, "Place details retrieved successfully")
+    @api.response(404, "Place not found")
     def get(self, place_id):
         """Fetch a place by ID"""
         place = facade.get_place(place_id)
@@ -65,18 +71,25 @@ class PlaceResource(Resource):
 
     @jwt_required()
     @api.expect(place_model)
-    @api.doc(security='Bearer Auth')
+    @api.response(200, "Place updated successfully")
+    @api.response(403, "Unauthorized action")
+    @api.response(400, "Bad request")
+    @api.response(404, "Place not found")    
     def put(self, place_id):
         """Update a place (auth required)"""
         current_user = get_jwt_identity()
         place = facade.get_place(place_id)
+        data = api.payload
         if not place:
             return {'error': 'Place not found'}, 404
         if place.owner_id != current_user['id'] and not current_user['is_admin']:
-            return {'error': 'Forbidden'}, 403
-        data = api.payload
+            return {'error': 'Unauthorized action'}, 403
         updated_place = facade.update_place(place_id, data)
-        return updated_place.to_dict()
+        try:
+            return updated_place.to_dict()
+        except ValueError as err:
+            return {"error": str(err)}, 400
+
 
     @jwt_required()
     @api.doc(security='Bearer Auth')

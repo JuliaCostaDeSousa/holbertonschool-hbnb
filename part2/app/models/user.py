@@ -48,16 +48,16 @@ class User(BaseModel):
             raise TypeError("{} must be a boolean".format(key))
         return value
 
-    @property
-    def password(self):
-        raise AttributeError("Password is write-only.")
-
-    @password.setter
-    def password(self, plaintext):
-        if not plaintext:
-            raise ValueError("Password must not be empty.")
-        self._password = bcrypt.generate_password_hash(plaintext).decode('utf-8')
-
+    @validates('password')
+    def validate_password(self, key, value):
+        if not isinstance(value, str):
+            raise TypeError("Password must be a string")
+        value = value.strip()
+        if value == "":
+            raise ValueError("{} must not be empty".format(key))
+        self.hash_password(value)
+        return self._password
+    
     def add_place(self, place):
         """Add a place."""
         self.places.append(place)

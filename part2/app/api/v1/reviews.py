@@ -1,5 +1,5 @@
 from flask_restx import Namespace, Resource, fields
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from app.services import facade
 
 api = Namespace('reviews', description='Review operations')
@@ -13,6 +13,7 @@ review_model = api.model('Review', {
 
 @api.route('/')
 class ReviewList(Resource):
+    @api.response(200, 'List of reviews retrieved successfully')
     def get(self):
         """List all reviews"""
         reviews = facade.get_all_reviews()
@@ -20,23 +21,11 @@ class ReviewList(Resource):
 
     @jwt_required()
     @api.expect(review_model)
-    @api.doc(security='Bearer Auth')
+    @api.response(201, "Review is created")
+    @api.response(400, 'Invalid input data or business rule violated')
     def post(self):
         current_user = get_jwt_identity()
         data = api.payload
-        print(f"Review POST data: {data}")
-
-        data['user_id'] = current_user['id']
-        if 'place_id' not in data or not data['place_id']:
-            return {'error': 'place_id is required'}, 400
-        if 'text' not in data or not data['text']:
-            return {'error': 'text is required'}, 400
-        if 'rating' not in data or not isinstance(data['rating'], int):
-            return {'error': 'rating is required and must be an integer'}, 400
-        if not (1 <= data['rating'] <= 5):
-            return {'error': 'rating must be between 1 and 5'}, 400
-        if 'place_id' not in data or not data['place_id']:
-            return {'error': 'place_id is required'}, 400
 
         place = facade.get_place(data['place_id'])
         if not place:
@@ -54,9 +43,9 @@ class ReviewList(Resource):
         except ValueError as e:
             return {'error': str(e)}, 400
 
-@api.route('/<string:review_id>')
-@api.param('review_id', 'The review identifier')
+@api.route('/<review_id>')
 class ReviewResource(Resource):
+    @api.response(404, 'Review not found')
     def get(self, review_id):
         """Get a review by ID"""
         review = facade.get_review(review_id)
@@ -66,7 +55,9 @@ class ReviewResource(Resource):
     
     @jwt_required()
     @api.expect(review_model)
-    @api.doc(security='Bearer Auth')
+    @api.response(200, 'Review updated successfully')
+    @api.response(403, 'Unauthorized action')
+    @api.response(404, 'Review not found')    
     def put(self, review_id):
         """Update a review"""
         current_user = get_jwt_identity()
@@ -79,10 +70,12 @@ class ReviewResource(Resource):
         if not (1 <= data['rating'] <= 5):
             return {'error': 'Rating must be between 1 and 5'}, 400
         updated = facade.update_review(review_id, data)
-        return updated.to_dict()
+        return updated.to_dict(), 200
     
     @jwt_required()
-    @api.doc(security='Bearer Auth')
+    @api.response(204, 'Review deleted successfully')
+    @api.response(403, 'Unauthorized action')
+    @api.response(404, 'Review not found')
     def delete(self, review_id):
         """Delete a review"""
         current_user = get_jwt_identity()
