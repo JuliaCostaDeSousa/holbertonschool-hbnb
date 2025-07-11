@@ -149,7 +149,9 @@ _Example of use:_
 wifi = Amenity(id="b566", name="Wi-Fi")
 print(wifi.name)  # Wi-Fi
 
-API Endpoints Overview
+
+
+## ___API Endpoints Overview___
 🔐 Authentication
 POST /api/v1/auth/login — Log in and retrieve JWT token.
 
