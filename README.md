@@ -4,39 +4,49 @@
 .
 ├── app/
 │   ├── __init__.py
+│   ├── Insert_Initial_Data.sql
+│   ├── SQL_tables.sql
+│   ├── extensions.py
 │   ├── api/
 │   │   ├── __init__.py
 │   │   └── v1/
 │   │       ├── __init__.py
 │   │       ├── users.py
+│   │       ├── auth.py
 │   │       ├── places.py
+│   │       ├── protected.py
 │   │       ├── reviews.py
 │   │       └── amenities.py
 │   ├── models/
 │   │   ├── __init__.py
 │   │   ├── base_model.py
 │   │   ├── user.py
+│   │   ├──associations.py
 │   │   ├── place.py
 │   │   ├── review.py
-│   │   ├── amenity.py
-│   │   └── engine/
-│   │       ├── __init__.py
-│   │       ├── file_storage.py
-│   │       └── db_storage.py
+│   │   └──amenity.py
 │   ├── services/
 │   │   ├── __init__.py
-│   │   ├── facade.py
-│   │   ├── user_service.py        
-│   │   └── place_service.py         
+│   │   └── facade.py       
 │   └── persistence/
 │       ├── __init__.py
 │       ├── repository.py
+│       ├── amenity_repository.py
+│       ├── place_repository.py
+│       ├── review_repository.py
 │       └── user_repository.py       
 ├── run.py
 ├── config.py
 ├── requirements.txt
 └── README.md
-
+└── tests/
+    ├── __pycache__/
+    └── api/
+        ├── __pycache__/
+        ├── test_amenities.py
+        ├── test_places.py
+        ├── test_reviews.py
+        └── test_users.py
 ```
 ## ___Installing Dependencies___
 To install the required packages, run the following command in your terminal:
@@ -138,5 +148,106 @@ _Example of use:_
 ```python
 wifi = Amenity(id="b566", name="Wi-Fi")
 print(wifi.name)  # Wi-Fi
+
+API Endpoints Overview
+🔐 Authentication
+POST /api/v1/auth/login — Log in and retrieve JWT token.
+
+👤 Users
+GET /api/v1/users/ — List all users (Admin only).
+
+POST /api/v1/users/ — Create a new user.
+
+GET /api/v1/users/<user_id> — Get a user’s details.
+
+PUT /api/v1/users/<user_id> — Update a user (self or admin).
+
+DELETE /api/v1/users/<user_id> — Delete a user (self or admin).
+
+🏠 Places
+GET /api/v1/places/ — List all places.
+
+POST /api/v1/places/ — Create a new place (auth required).
+
+GET /api/v1/places/<place_id> — Get place details.
+
+PUT /api/v1/places/<place_id> — Update a place (owner or admin).
+
+DELETE /api/v1/places/<place_id> — Delete a place (owner or admin).
+
+📝 Reviews
+GET /api/v1/reviews/ — List all reviews.
+
+POST /api/v1/reviews/ — Create a review (auth required).
+
+GET /api/v1/reviews/<review_id> — Get review details.
+
+PUT /api/v1/reviews/<review_id> — Update a review (owner or admin).
+
+DELETE /api/v1/reviews/<review_id> — Delete a review (owner or admin).
+
+🛎️ Amenities
+GET /api/v1/amenities/ — List all amenities.
+
+POST /api/v1/amenities/ — Create a new amenity.
+
+GET /api/v1/amenities/<amenity_id> — Get amenity details.
+
+PUT /api/v1/amenities/<amenity_id> — Update an amenity.
+
+DELETE /api/v1/amenities/<amenity_id> — Delete an amenity.
+
+Business Logic Layer
+🧍 User
+Represents an individual registered on the platform.
+
+python
+Copier
+user = User(
+    id="u001",
+    first_name="Ping",
+    last_name="Pong",
+    email="alice@example.com"
+)
+print(user.email)        # alice@example.com
+print(user.is_admin)     # False
+🏡 Place
+Represents a property available for booking.
+
+python
+Copier
+place = Place(
+    id="p002",
+    title="villa in Monaco",
+    description="Ideal for a weekend.",
+    price=520.0,
+    latitude=78.8676,
+    longitude=7.3432,
+    owner=user
+)
+print(place.title)       # villa in Monaco
+print(place.price)       # 520.0
+⭐ Review
+Represents a user's rating of a place.
+
+python
+Copier
+review = Review(
+    id="r001",
+    text="Very expensive.",
+    rating=3,
+    place=place,
+    user=user
+)
+print(review.rating)         # 3
+print(review.place.title)    # villa in Monaco
+⚙️ Amenity
+Represents an equipment/service associated with a location.
+
+python
+Copier
+wifi = Amenity(id="b566", name="Wi-Fi")
+print(wifi.name)  # Wi-Fi
+
 #Alcinoe Romanelli
 #Julia Coscadesousa
