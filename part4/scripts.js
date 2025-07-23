@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  checkAuthentication();
   const page = document.body.dataset.page;
 
   switch (page) {
@@ -16,6 +17,14 @@ document.addEventListener('DOMContentLoaded', () => {
       break;
   }
 });
+
+function checkAuthentication() {
+  const token = getToken();
+  const loginLink = document.getElementById('login-link');
+  if (loginLink) {
+    loginLink.style.display = token ? 'none' : 'block';
+  }
+}
 
 function handleLoginPage() {
   const form = document.getElementById('login-form');
@@ -54,7 +63,12 @@ function handleIndexPage() {
 
   const filter = document.getElementById('price-filter');
   if (filter) {
-    filter.innerHTML = `<option value="">All</option><option>50</option><option>100</option><option>150</option>`;
+    filter.innerHTML = `
+      <option value="10">10</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+      <option value="">All</option>
+    `;
     filter.addEventListener('change', () => {
       const max = parseFloat(filter.value);
       document.querySelectorAll('.place-card').forEach(card => {
