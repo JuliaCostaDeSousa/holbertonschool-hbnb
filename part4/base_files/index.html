@@ -1,39 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>List of Places</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/png" href="image/icon.png" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="icon.png" type="image/png" />
 </head>
-<body>
-    <header>
-        <a href="index.html"><img src="images/logo.png" alt="logo" class="logo"></a>
-        <nav>
-            <a href="login.html" id="login-link" class="login-button">Login</a>
-            <ul>
-                <li><a href="index.html">Index</a></li>
-                <li><a href="login.html">Login</a></li>
-                <li><a href="place.html">Place</a></li>
-                <li><a href="add_review.html">Add review</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section id="filter">
-            <label for="price-filter">Max Price:</label>
-            <select id="price-filter">
-                <!-- Options will be populated dynamically -->
-            </select>
-        </section>
-        <section id="places-list">
-            <!-- List of places will be populated dynamically -->
-        </section>
-    </main>
-    <script src="scripts.js"></script>
-    <footer>
-        <p>© 2025 HBnB. All rights reserved.</p>
-    </footer>
+<body data-page="login">
+  <header>
+    <img src="logo.png" alt="Application Logo" class="logo" />
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="login.html" class="login-button">Login</a>
+    </nav>
+  </header>
+
+  <main>
+    <form id="login-form">
+      <h2>Login</h2>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required />
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required />
+
+      <button type="submit">Login</button>
+    </form>
+  </main>
+
+  <footer>
+    <p>Tous droits réservés.</p>
+  </footer>
+
+  <script src="scripts.js"></script>
 </body>
 </html>
