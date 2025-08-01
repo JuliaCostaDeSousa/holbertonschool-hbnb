@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("Invalid place ID in URL.");
             return;
         }
-        const url = "https://ton-api.com/api/places/" + placeId
+        const url = "http://127.0.0.1:5000/api/places/" + placeId
         fetch(url, {
             method: "GET",
             headers: {
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function submitReview(token, placeId, comment, rating) {
     try {
-        const response = await fetch(`https://ton-api.com/api/reviews`, {
+        const response = await fetch(`http://127.0.0.1:5000/api/reviews`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ async function submitReview(token, placeId, comment, rating) {
 
 async function loginUser(email, password) {
     try {
-        const response = await fetch('https://your-api-url/login', {
+        const response = await fetch('http://127.0.0.1:5000/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -189,7 +189,7 @@ function getCookie(name) {
 
 async function fetchPlaces(token) {
     try {
-        const URL = "https://ton-api.com/api/places"
+        const URL = "http://127.0.0.1:5000/api/places"
 
         const response = await fetch(URL, {
             method: 'GET',
@@ -278,7 +278,7 @@ function displayPlaceDetails(place) {
 
 async function fetchPlaceDetails(token, placeId) {
     try {
-        const URL = `https://ton-api.com/api/places/${placeId}`
+        const URL = `http://127.0.0.1:5000/api/places/${placeId}`
 
         const response = await fetch(URL, {
             method: 'GET',
