@@ -4,7 +4,6 @@ from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
 import config
-from flask_cors import CORS
 
 bcrypt = Bcrypt()
 jwt = JWTManager()
@@ -20,8 +19,7 @@ from app.api.v1.protected import api as protected_ns
 def create_app(config_class=config.DevelopmentConfig):
     # Création de l'application
     app = Flask(__name__)
-    CORS(app)
-
+        
     app.config.from_object(config_class)
     
     # Initialisation des extensions
